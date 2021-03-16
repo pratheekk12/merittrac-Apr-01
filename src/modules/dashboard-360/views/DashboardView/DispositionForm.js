@@ -78,42 +78,101 @@ export default function DispositionForm(props) {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
     var APIENDPOINT = '';
     console.log('userDetails sdsdfgsdfgsdf', user_Details)
-    if (user_Details.Server === 'server1') {
-      APIENDPOINT = SOCKETENDPOINT1
-    }
-    if (user_Details.Server === 'server2') {
-      APIENDPOINT = SOCKETENDPOINT2
-    }
-    if (user_Details.Server === 'server3') {
-      APIENDPOINT = SOCKETENDPOINT3
-    }
-    if (user_Details.Server === 'server4') {
-      APIENDPOINT = SOCKETENDPOINT4
-    }
+    // if (user_Details.Server === 'server1') {
+    //   APIENDPOINT = SOCKETENDPOINT1
+    // }
+    // if (user_Details.Server === 'server2') {
+    //   APIENDPOINT = SOCKETENDPOINT2
+    // }
+    // if (user_Details.Server === 'server3') {
+    //   APIENDPOINT = SOCKETENDPOINT3
+    // }
+    // if (user_Details.Server === 'server4') {
+    //   APIENDPOINT = SOCKETENDPOINT4
+    // }
     console.log('remove', agentId);
-    const config = {
+    const config1 = {
       method: 'get',
       url:
-        `${APIENDPOINT
+        `${SOCKETENDPOINT1
         }/ami/actions/rmq?Queue=${queue
         }&Interface=${agentId}`,
       headers: {
         'Content-Type': 'application/json'
       }
     };
-
-    axios(config)
+  
+    axios(config1)
       .then((response) => {
-
+  
       })
       .catch((error) => {
         console.log(error);
       });
+  
+  
+      const config2 = {
+        method: 'get',
+        url:
+          `${SOCKETENDPOINT2
+          }/ami/actions/rmq?Queue=${queue
+          }&Interface=${agentId}`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+    
+      axios(config2)
+        .then((response) => {
+    
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  
+  
+        const config3 = {
+          method: 'get',
+          url:
+            `${SOCKETENDPOINT3
+            }/ami/actions/rmq?Queue=${queue
+            }&Interface=${agentId}`,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+      
+        axios(config3)
+          .then((response) => {
+      
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+  
+  
+          const config4 = {
+            method: 'get',
+            url:
+              `${SOCKETENDPOINT4
+              }/ami/actions/rmq?Queue=${queue
+              }&Interface=${agentId}`,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          };
+        
+          axios(config4)
+            .then((response) => {
+        
+            })
+            .catch((error) => {
+              console.log(error);
+            });
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
