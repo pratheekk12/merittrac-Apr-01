@@ -508,6 +508,19 @@ export default function DispositionForm(props) {
     });
 
     localStorage.setItem('callDispositionStatus', 'Disposed');
+    var serverPrefix = localStorage.getItem('callUniqueId');
+    if (user_Details.Server === 'server1') {
+      serverPrefix = `325${localStorage.getItem('callUniqueId')}`
+    }
+    if (user_Details.Server === 'server2') {
+      serverPrefix = `331${localStorage.getItem('callUniqueId')}`
+    }
+    if (user_Details.Server === 'server3') {
+      serverPrefix = `332${localStorage.getItem('callUniqueId')}`
+    }
+    if (user_Details.Server === 'server4') {
+      serverPrefix = `334${localStorage.getItem('callUniqueId')}`
+    }
     if (localStorage.getItem('Agenttype') === 'L1') {
       // if (user_Details.AgentQueueStatus === 'dynamic') {
       //   removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
@@ -541,7 +554,7 @@ export default function DispositionForm(props) {
     );
     updateAgentCallStatus({
       callStatusId: localStorage.getItem('callStatusId'),
-      callUniqueId: localStorage.getItem('callUniqueId'),
+      callUniqueId: serverPrefix,
       callType: localStorage.getItem('callType'),
       callStatus: localStorage.getItem('callStatus'),
       callEvent: localStorage.getItem('callEvent'),
@@ -550,7 +563,7 @@ export default function DispositionForm(props) {
 
     });
     if (localStorage.getItem('Agenttype') === 'L1') {
-      updateCallData(localStorage.getItem('callUniqueId'), {
+      updateCallData(serverPrefix, {
         category: formRef.current.values.category.label,
         subcategory: formRef.current.values.subcategory.label,
         subcategoryitem: formRef.current.values.subcategoryitem.label,
@@ -572,11 +585,11 @@ export default function DispositionForm(props) {
         dispostionFormData: formRef.current.values,
         anydeskid: formRef.current.values.anydeskid,
         solution: formRef.current.values.solution,
-        L1ID: localStorage.getItem('callUniqueId')
+        L1ID: serverPrefix
       });
     }
     if (localStorage.getItem('Agenttype') === 'L2') {
-      updateCallData(localStorage.getItem('callUniqueId'), {
+      updateCallData(serverPrefix, {
         category: formRef.current.values.category.label,
         subcategory: formRef.current.values.subcategory.label,
         subcategoryitem: formRef.current.values.subcategoryitem.label,
@@ -598,16 +611,16 @@ export default function DispositionForm(props) {
         dispostionFormData: formRef.current.values,
         anydeskid: formRef.current.values.anydeskid,
         solution: formRef.current.values.solution,
-        L1ID: localStorage.getItem('callUniqueId')
+        L1ID: serverPrefix
       });
       updateCallData(localStorage.getItem('L1ID'), {
-        L2ID: localStorage.getItem('callUniqueId'),
+        L2ID: serverPrefix,
         type: formRef.current.values.type,
         agenttype: 'L2'
       });
     }
     if (localStorage.getItem('Agenttype') === 'L3') {
-      updateCallData(localStorage.getItem('callUniqueId'), {
+      updateCallData(serverPrefix, {
         category: formRef.current.values.category.label,
         subcategory: formRef.current.values.subcategory.label,
         subcategoryitem: formRef.current.values.subcategoryitem.label,
