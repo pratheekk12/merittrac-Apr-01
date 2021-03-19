@@ -117,91 +117,225 @@ var APIENDPOINT = SOCKETENDPOINT2;
 
 
 
-function addToQueue(agentId, queue, user_Details) {
-  const axios = require('axios');
-  console.log(user_Details, "addddd")
-  var APIENDPOINT = '';
-  console.log('userDetails sdsdfgsdfgsdf', user_Details)
-  if (user_Details.Server === 'server1') {
-    APIENDPOINT = SOCKETENDPOINT1
-  }
-  if (user_Details.Server === 'server2') {
-    APIENDPOINT = SOCKETENDPOINT2
-  }
-  if (user_Details.Server === 'server3') {
-    APIENDPOINT = SOCKETENDPOINT3
-  }
-  if (user_Details.Server === 'server4') {
-    APIENDPOINT = SOCKETENDPOINT4
-  }
+// function addToQueue(agentId, queue, user_Details) {
+//   const axios = require('axios');
+//   console.log(user_Details, "addddd")
+//   var APIENDPOINT = '';
+//   console.log('userDetails sdsdfgsdfgsdf', user_Details)
+//   if (user_Details.Server === 'server1') {
+//     APIENDPOINT = SOCKETENDPOINT1
+//   }
+//   if (user_Details.Server === 'server2') {
+//     APIENDPOINT = SOCKETENDPOINT2
+//   }
+//   if (user_Details.Server === 'server3') {
+//     APIENDPOINT = SOCKETENDPOINT3
+//   }
+//   if (user_Details.Server === 'server4') {
+//     APIENDPOINT = SOCKETENDPOINT4
+//   }
 
-  const config = {
-    method: 'get',
-    url:
-      `${APIENDPOINT
-      }/ami/actions/addq?Interface=${agentId}&Queue=${queue
-      }`,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
+//   const config = {
+//     method: 'get',
+//     url:
+//       `${APIENDPOINT
+//       }/ami/actions/addq?Interface=${agentId}&Queue=${queue
+//       }`,
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   };
 
-  axios(config)
-    .then((response) => { })
-    .catch((error) => {
-      console.log(error);
-    });
+//   axios(config)
+//     .then((response) => { })
+//     .catch((error) => {
+//       console.log(error);
+//     });
 
-}
+// }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  function addToQueue(agentId, queue, user_Details) {
+    const axios = require('axios');
 
-function removeFromQueue(agentId, queue, user_Details) {
-  const axios = require('axios');
-  var APIENDPOINT = '';
-  console.log('userDetails sdsdfgsdfgsdf', user_Details)
-  if (user_Details.Server === 'server1') {
-    APIENDPOINT = SOCKETENDPOINT1
+    var config1 = {
+      method: 'get',
+      url: 'http://106.51.86.75:42004/crm/serveragentcounts',
+      headers: {}
+    };
+
+    axios(config1)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+
+        var data = response.data
+
+
+        var items = data.items[0];
+        delete items['_id'];
+        delete items['createdAt'];
+        delete items['updatedAt'];
+        delete items['__v'];
+
+        var data = [];
+        data.push(items.server1, items.server2, items.server3, items.server4)
+        data = data.sort((a, b) => parseFloat(a) - parseFloat(b));
+
+        function getKeyByValue(object, value) {
+          return Object.keys(object).find(key => object[key] === value);
+        }
+
+        console.log('data', data)
+        console.log(getKeyByValue(items, data[0]));
+        if (getKeyByValue(items, data[0]) === 'server1') {
+          APIENDPOINT = 'http://106.51.86.75:42001';
+        }
+        if (getKeyByValue(items, data[0]) === 'server2') {
+          APIENDPOINT = 'http://106.51.86.75:42002';
+        }
+        if (getKeyByValue(items, data[0]) === 'server3') {
+          APIENDPOINT = 'http://106.51.86.75:42003';
+        }
+        if (getKeyByValue(items, data[0]) === 'server4') {
+          APIENDPOINT = 'http://106.51.86.75:42005';
+        }
+        const config = {
+          method: 'get',
+          url:
+            `${APIENDPOINT
+            }/ami/actions/addq?Interface=${agentId}&Queue=${queue
+            }`,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        axios(config)
+          .then((response) => { })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
+
+
   }
-  if (user_Details.Server === 'server2') {
-    APIENDPOINT = SOCKETENDPOINT2
+  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  function removeFromQueue(agentId, queue, user_Details) {
+    const axios = require('axios');
+    var APIENDPOINT = '';
+    console.log('userDetails sdsdfgsdfgsdf', user_Details)
+    // if (user_Details.Server === 'server1') {
+    //   APIENDPOINT = SOCKETENDPOINT1
+    // }
+    // if (user_Details.Server === 'server2') {
+    //   APIENDPOINT = SOCKETENDPOINT2
+    // }
+    // if (user_Details.Server === 'server3') {
+    //   APIENDPOINT = SOCKETENDPOINT3
+    // }
+    // if (user_Details.Server === 'server4') {
+    //   APIENDPOINT = SOCKETENDPOINT4
+    // }
+    console.log('remove', agentId);
+    const config1 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT1
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config1)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config2 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT2
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config2)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config3 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT3
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config3)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config4 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT4
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config4)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
-  if (user_Details.Server === 'server3') {
-    APIENDPOINT = SOCKETENDPOINT3
-  }
-  if (user_Details.Server === 'server4') {
-    APIENDPOINT = SOCKETENDPOINT4
-  }
-  console.log('remove', agentId);
-  const config = {
-    method: 'get',
-    url:
-      `${APIENDPOINT
-      }/ami/actions/rmq?Queue=${queue
-      }&Interface=${agentId}`,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  axios(config)
-    .then((response) => {
-
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   const classes = useStyles();
@@ -231,7 +365,8 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           // var queue=res.data.userDetails.AgentQueueStatus
           if (res.data.userDetails.AgentQueueStatus === 'dynamic') {
-            addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, res.data.userDetails)
+            removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+            addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
           }
           console.log('data resppppp', res.data)
           localStorage.setItem("jwtToken", accessToken);
