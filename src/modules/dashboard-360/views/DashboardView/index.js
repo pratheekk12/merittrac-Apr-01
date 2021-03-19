@@ -408,74 +408,74 @@ const Dashboard = ({
         'Content-Type': 'application/json'
       }
     };
-  
+
     axios(config1)
       .then((response) => {
-  
+
       })
       .catch((error) => {
         console.log(error);
       });
-  
-  
-      const config2 = {
-        method: 'get',
-        url:
-          `${SOCKETENDPOINT2
-          }/ami/actions/rmq?Queue=${queue
-          }&Interface=${agentId}`,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-    
-      axios(config2)
-        .then((response) => {
-    
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  
-  
-        const config3 = {
-          method: 'get',
-          url:
-            `${SOCKETENDPOINT3
-            }/ami/actions/rmq?Queue=${queue
-            }&Interface=${agentId}`,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-      
-        axios(config3)
-          .then((response) => {
-      
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-  
-  
-          const config4 = {
-            method: 'get',
-            url:
-              `${SOCKETENDPOINT4
-              }/ami/actions/rmq?Queue=${queue
-              }&Interface=${agentId}`,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          };
-        
-          axios(config4)
-            .then((response) => {
-        
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+
+
+    const config2 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT2
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config2)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config3 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT3
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config3)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config4 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT4
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config4)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
@@ -831,7 +831,7 @@ const Dashboard = ({
       var agentExtension = data.agentNumber;
       if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "325"+data.event.Uniqueid)
+        localStorage.setItem('callUniqueId', "325" + data.event.Uniqueid)
         localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
         // //   console.log('AstriskEventBridgeOutbound', data);
 
@@ -934,7 +934,7 @@ const Dashboard = ({
       var agentExtension = data.agentNumber;
       if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "331"+data.event.Uniqueid)
+        localStorage.setItem('callUniqueId', "331" + data.event.Uniqueid)
         localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
         // //   console.log('AstriskEventBridgeOutbound', data);
 
@@ -1039,7 +1039,7 @@ const Dashboard = ({
       var agentExtension = data.agentNumber;
       if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "332"+data.event.Uniqueid)
+        localStorage.setItem('callUniqueId', "332" + data.event.Uniqueid)
         localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
         // //   console.log('AstriskEventBridgeOutbound', data);
 
@@ -1144,7 +1144,7 @@ const Dashboard = ({
       var agentExtension = data.agentNumber;
       if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "334"+data.event.Uniqueid)
+        localStorage.setItem('callUniqueId', "334" + data.event.Uniqueid)
         localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
         // //   console.log('AstriskEventBridgeOutbound', data);
 
@@ -1325,19 +1325,19 @@ const Dashboard = ({
         <Container maxWidth={false}>
           <Grid container spacing={3}>
             <Grid item lg={4} md={6} xs={12}>
-            {user_Details.AgentQueueStatus === 'dynamic' ?
-              <Grid item>
+              {user_Details.AgentQueueStatus === 'dynamic' ?
+                <Grid item>
 
 
-                {currentCall.callDispositionStatus === 'Disposed' && currentCall.callStatus != 'connected' ? <Button
-                  color="secondary"
-                  variant="contained"
-                  style={{ color: 'white' }}
-                  onClick={(e) => breakService(e)}
-                >
-                  {currentCall.breakStatus === 'OUT' || currentCall.breakStatus === 'NA' ? <label>Break OUT</label> : <label>Break IN</label>}
-                </Button> : null}
-                {/* <Button
+                  {currentCall.callDispositionStatus === 'Disposed' && currentCall.callStatus != 'connected' ? <Button
+                    color="secondary"
+                    variant="contained"
+                    style={{ color: 'white' }}
+                    onClick={(e) => breakService(e)}
+                  >
+                    {currentCall.breakStatus === 'OUT' || currentCall.breakStatus === 'NA' ? <label>TAKE A BREAK</label> : <label>YOU ARE IN BREAK</label>}
+                  </Button> : null}
+                  {/* <Button
                   color="secondary"
                   variant="contained"
                   style={{ color: 'white' }}
@@ -1348,7 +1348,7 @@ const Dashboard = ({
 
                 </Button> */}
 
-              </Grid> : null}
+                </Grid> : null}
 
 
             </Grid>
