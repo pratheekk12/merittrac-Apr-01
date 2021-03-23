@@ -27,7 +27,8 @@ import {
   SOCKETENDPOINT2,
   SOCKETENDPOINT3,
   SOCKETENDPOINT4,
-  Agent_service_url
+  SOCKETENDPOINT5,
+  AGENT_SERVICE_URL,
 } from 'src/modules/dashboard-360/utils/endpoints';
 import Iframe from 'react-iframe'
 import { ExpandMore } from '@material-ui/icons';
@@ -74,6 +75,7 @@ const socket1 = socketIOClient(SOCKETENDPOINT1, { transports: ['websocket'], 're
 const socket2 = socketIOClient(SOCKETENDPOINT2, { transports: ['websocket'], 'reconnection limit': 1000, 'max reconnection attempts': 'Infinity' });
 const socket3 = socketIOClient(SOCKETENDPOINT3, { transports: ['websocket'], 'reconnection limit': 1000, 'max reconnection attempts': 'Infinity' });
 const socket4 = socketIOClient(SOCKETENDPOINT4, { transports: ['websocket'], 'reconnection limit': 1000, 'max reconnection attempts': 'Infinity' });
+const socket5 = socketIOClient(SOCKETENDPOINT5, { transports: ['websocket'], 'reconnection limit': 1000, 'max reconnection attempts': 'Infinity' });
 
 
 
@@ -283,7 +285,7 @@ const Dashboard = ({
 
     var config = {
       method: 'get',
-      url: `${Agent_service_url}/crm/interactions/getByAgentStatus?type=` + agentType + '&status=' + status + '',
+      url: `${AGENT_SERVICE_URL}/crm/interactions/getByAgentStatus?type=` + agentType + '&status=' + status + '',
       headers: {}
     };
 
@@ -335,7 +337,7 @@ const Dashboard = ({
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
- 
+
   // function addToQueue(agentId, queue, user_Details) {
   //   var axios = require('axios');
 
@@ -423,6 +425,10 @@ const Dashboard = ({
         }
         if (getKeyByValue(items, data[0]) === 'server4') {
           APIENDPOINT = 'http://106.51.86.75:42005';
+        }
+        if (getKeyByValue(items, data[0]) === 'server5') {
+          APIENDPOINT = 'http://106.51.86.75:42009';
+          queue = 7003
         }
         const config = {
           method: 'get',
@@ -546,6 +552,24 @@ const Dashboard = ({
     };
 
     axios(config4)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const config5 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT5
+        }/ami/actions/rmq?Queue=7003&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config5)
       .then((response) => {
 
       })
@@ -1289,6 +1313,114 @@ const Dashboard = ({
     /////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //socket5//////////////////////////////////////////////////////////////////////////////////
+    socket5.on('AstriskEvent', data => {
+      if (data.Event === 'Hangup') {
+        // console.log('AstriskEvent', data)
+      }
+      if (data.Event === 'Bridge') {
+        // console.log('AstriskEvent', data)
+      }
+
+    })
+    socket5.on('ringing1', data => {
+      console.log('ringing1', data);
+      // var Channel1 = data.Channel1;
+      var agentExtension = data.agentNumber;
+      if (agentExtension === agent.AgentSipId) {
+
+        localStorage.setItem('channel', data.event.Channel)
+        //   console.log('AstriskEventBridgeOutbound', data);
+
+        // setCurrentCallDetails(
+        //   localStorage.getItem('callStatusId'),
+        //   data.Uniqueid,
+        //   agent.AgentType,
+        //   'connected',
+        //   'Bridge',
+        //   'NotDisposed',
+        //   '',
+        //   localStorage.getItem('breakStatus')
+        // );
+      }
+    });
+
+    socket5.on('ringing2', data => {
+      console.log('ringing2', data)
+      // var Channel1 = data.Channel1;
+      var agentExtension = data.agentNumber;
+      if (agentExtension === agent.AgentSipId) {
+
+        localStorage.setItem('callUniqueId', "334" + data.event.Uniqueid)
+        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+        // //   console.log('AstriskEventBridgeOutbound', data);
+
+        //   setCurrentCallDetails(
+        //     localStorage.getItem('callStatusId'),
+        //     localStorage.getItem('callUniqueId'),
+        //     agent.AgentType,
+        //     'connected',
+        //     'Bridge',
+        //     'NotDisposed',
+        //     data.contactNumber,
+        //     localStorage.getItem('breakStatus')
+        //   );
+      }
+    });
+    socket5.on('transfercallnumber', data => {
+      if (localStorage.getItem('Agenttype') === 'L2') {
+        localStorage.setItem('callerNumber', data.contactnumber)
+      }
+
+    })
+    socket5.on('connected', data => {
+      console.log('connected', data);
+      var agentExtension = data.agentNumber;
+      if (agentExtension === agent.AgentSipId) {
+        // getInitialData();
+        // console.log('AstriskEventBridgeInbound', data);
+        localStorage.setItem('distributer_id', agent.AgentSipId);
+        setCurrentCallDetails(
+          localStorage.getItem('callStatusId'),
+          localStorage.getItem('callUniqueId'),
+          agent.AgentType,
+          'connected',
+          'Bridge',
+          'NotDisposed',
+          localStorage.getItem('callerNumber'),
+          localStorage.getItem('breakStatus')
+        );
+        // removeFromQueue(agent.AgentSipId, '7001');
+      }
+    });
+    socket5.on('hangup', data => {
+      console.log('hangup', data);
+      // var str = data.Channel;
+      // var agentsipid = str.substring(4, 8);
+      // console.log('agentsipid', agentsipid);
+      var agentExtension = data.agentNumber;
+      if (agentExtension === agent.AgentSipId) {
+        // console.log('AstriskEventHangup', data);
+        setCurrentCallDetails(
+          localStorage.getItem('callStatusId'),
+          localStorage.getItem('callUniqueId'),
+          localStorage.getItem('callType'),
+          'disconnected',
+          'Hangup',
+          localStorage.getItem('callDispositionStatus'),
+          localStorage.getItem('callerNumber'),
+          localStorage.getItem('breakStatus')
+        );
+      }
+    });
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     return () => {
       socket1.off('ringing');
       socket1.off('connected');
@@ -1309,6 +1441,11 @@ const Dashboard = ({
       socket4.off('connected');
       socket4.off('hangup');
       socket4.off('transfercallnumber');
+
+      socket5.off('ringing');
+      socket5.off('connected');
+      socket5.off('hangup');
+      socket5.off('transfercallnumber');
 
     };
   }, []);

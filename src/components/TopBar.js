@@ -28,7 +28,7 @@ import { connect } from 'react-redux';
 import Axios from 'axios';
 import { SET_SEARCH_DISTRIBUTOR } from 'src/redux/constants';
 import {
-  SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT3, SOCKETENDPOINT4, UPDATE_CURRENT_STATUS
+  SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT3, SOCKETENDPOINT4, SOCKETENDPOINT5, UPDATE_CURRENT_STATUS
 } from '../modules/dashboard-360/utils/endpoints'
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -161,64 +161,82 @@ function removeFromQueue(agentId, queue, user_Details) {
     });
 
 
-    const config2 = {
-      method: 'get',
-      url:
-        `${SOCKETENDPOINT2
-        }/ami/actions/rmq?Queue=${queue
-        }&Interface=${agentId}`,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-  
-    axios(config2)
-      .then((response) => {
-  
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const config2 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT2
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config2)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
 
-      const config3 = {
-        method: 'get',
-        url:
-          `${SOCKETENDPOINT3
-          }/ami/actions/rmq?Queue=${queue
-          }&Interface=${agentId}`,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-    
-      axios(config3)
-        .then((response) => {
-    
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const config3 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT3
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config3)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
 
-        const config4 = {
-          method: 'get',
-          url:
-            `${SOCKETENDPOINT4
-            }/ami/actions/rmq?Queue=${queue
-            }&Interface=${agentId}`,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-      
-        axios(config4)
-          .then((response) => {
-      
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+  const config4 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT4
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config4)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  const config5 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT5
+      }/ami/actions/rmq?Queue=7003&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config5)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

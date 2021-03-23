@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import {
   UPDATE_CALL_STATUS,
   UPDATE_CURRENT_STATUS,
-  Agent_service_url
+  AGENT_SERVICE_URL
 } from 'src/modules/dashboard-360/utils/endpoints';
 import {
   Button,
@@ -42,7 +42,7 @@ export default function DispositionForm(props) {
   const [Groups, setGroups] = useState([]);
   const classes = useStyle();
   const formRef = useRef({});
-  const agentServiceURL = `${Agent_service_url}/`;
+  const agentServiceURL = `${AGENT_SERVICE_URL}/`;
 
   // const Groups = [
   //   {

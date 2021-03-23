@@ -9,7 +9,7 @@ import {
     Typography,
     TextField
 } from '@material-ui/core';
-import { Agent_service_url } from '../../../dashboard-360/utils/endpoints'
+import { AGENT_SERVICE_URL } from '../../../dashboard-360/utils/endpoints'
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
@@ -37,7 +37,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
     const Data = props.EditData[0]
 
     const [formData, setFormData] = useState(Data);
-    const agentServiceURL = `${Agent_service_url}/`;
+    const agentServiceURL = `${AGENT_SERVICE_URL}/`;
 
     const handleChange = (e) => {
         console.log("target", e.target)
@@ -65,7 +65,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
         var config = {
 
             method: 'post',
-            url: `${Agent_service_url}/crm/currentstatuses`,
+            url: `${AGENT_SERVICE_URL}/crm/currentstatuses`,
             headers: {
                 'Content-Type': 'application/json'
             },

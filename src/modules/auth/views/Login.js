@@ -25,7 +25,8 @@ import {
   SOCKETENDPOINT2,
   SOCKETENDPOINT3,
   SOCKETENDPOINT4,
-  Agent_service_url
+  SOCKETENDPOINT5,
+  AGENT_SERVICE_URL
 } from '../../dashboard-360/utils/endpoints'
 import Axios from 'axios';
 import { ADMIN, USER } from 'src/redux/constants';
@@ -156,186 +157,210 @@ var APIENDPOINT = SOCKETENDPOINT2;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
-  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  function addToQueue(agentId, queue, user_Details) {
-    const axios = require('axios');
+function addToQueue(agentId, queue, user_Details) {
+  const axios = require('axios');
 
-    var config1 = {
-      method: 'get',
-      url: 'http://106.51.86.75:42004/crm/serveragentcounts',
-      headers: {}
-    };
+  var config1 = {
+    method: 'get',
+    url: 'http://106.51.86.75:42004/crm/serveragentcounts',
+    headers: {}
+  };
 
-    axios(config1)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
+  axios(config1)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
 
-        var data = response.data
-
-
-        var items = data.items[0];
-        delete items['_id'];
-        delete items['createdAt'];
-        delete items['updatedAt'];
-        delete items['__v'];
-
-        var data = [];
-        data.push(items.server1, items.server2, items.server3, items.server4)
-        data = data.sort((a, b) => parseFloat(a) - parseFloat(b));
-
-        function getKeyByValue(object, value) {
-          return Object.keys(object).find(key => object[key] === value);
-        }
-
-        console.log('data', data)
-        console.log(getKeyByValue(items, data[0]));
-        if (getKeyByValue(items, data[0]) === 'server1') {
-          APIENDPOINT = 'http://106.51.86.75:42001';
-        }
-        if (getKeyByValue(items, data[0]) === 'server2') {
-          APIENDPOINT = 'http://106.51.86.75:42002';
-        }
-        if (getKeyByValue(items, data[0]) === 'server3') {
-          APIENDPOINT = 'http://106.51.86.75:42003';
-        }
-        if (getKeyByValue(items, data[0]) === 'server4') {
-          APIENDPOINT = 'http://106.51.86.75:42005';
-        }
-        const config = {
-          method: 'get',
-          url:
-            `${APIENDPOINT
-            }/ami/actions/addq?Interface=${agentId}&Queue=${queue
-            }`,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-
-        axios(config)
-          .then((response) => { })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      var data = response.data
 
 
+      var items = data.items[0];
+      delete items['_id'];
+      delete items['createdAt'];
+      delete items['updatedAt'];
+      delete items['__v'];
 
+      var data = [];
+      data.push(items.server1, items.server2, items.server3, items.server4)
+      data = data.sort((a, b) => parseFloat(a) - parseFloat(b));
 
-  }
-  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
-  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  function removeFromQueue(agentId, queue, user_Details) {
-    const axios = require('axios');
-    var APIENDPOINT = '';
-    console.log('userDetails sdsdfgsdfgsdf', user_Details)
-    // if (user_Details.Server === 'server1') {
-    //   APIENDPOINT = SOCKETENDPOINT1
-    // }
-    // if (user_Details.Server === 'server2') {
-    //   APIENDPOINT = SOCKETENDPOINT2
-    // }
-    // if (user_Details.Server === 'server3') {
-    //   APIENDPOINT = SOCKETENDPOINT3
-    // }
-    // if (user_Details.Server === 'server4') {
-    //   APIENDPOINT = SOCKETENDPOINT4
-    // }
-    console.log('remove', agentId);
-    const config1 = {
-      method: 'get',
-      url:
-        `${SOCKETENDPOINT1
-        }/ami/actions/rmq?Queue=${queue
-        }&Interface=${agentId}`,
-      headers: {
-        'Content-Type': 'application/json'
+      function getKeyByValue(object, value) {
+        return Object.keys(object).find(key => object[key] === value);
       }
-    };
 
-    axios(config1)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-
-    const config2 = {
-      method: 'get',
-      url:
-        `${SOCKETENDPOINT2
-        }/ami/actions/rmq?Queue=${queue
-        }&Interface=${agentId}`,
-      headers: {
-        'Content-Type': 'application/json'
+      console.log('data', data)
+      console.log(getKeyByValue(items, data[0]));
+      if (getKeyByValue(items, data[0]) === 'server1') {
+        APIENDPOINT = 'http://106.51.86.75:42001';
       }
-    };
-
-    axios(config2)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-
-    const config3 = {
-      method: 'get',
-      url:
-        `${SOCKETENDPOINT3
-        }/ami/actions/rmq?Queue=${queue
-        }&Interface=${agentId}`,
-      headers: {
-        'Content-Type': 'application/json'
+      if (getKeyByValue(items, data[0]) === 'server2') {
+        APIENDPOINT = 'http://106.51.86.75:42002';
       }
-    };
-
-    axios(config3)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-
-    const config4 = {
-      method: 'get',
-      url:
-        `${SOCKETENDPOINT4
-        }/ami/actions/rmq?Queue=${queue
-        }&Interface=${agentId}`,
-      headers: {
-        'Content-Type': 'application/json'
+      if (getKeyByValue(items, data[0]) === 'server3') {
+        APIENDPOINT = 'http://106.51.86.75:42003';
       }
-    };
+      if (getKeyByValue(items, data[0]) === 'server4') {
+        APIENDPOINT = 'http://106.51.86.75:42005';
+      }
+      if (getKeyByValue(items, data[0]) === 'server5') {
+        APIENDPOINT = 'http://106.51.86.75:42009';
+        queue = 7003
+      }
 
-    axios(config4)
-      .then((response) => {
+      const config = {
+        method: 'get',
+        url:
+          `${APIENDPOINT
+          }/ami/actions/addq?Interface=${agentId}&Queue=${queue
+          }`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      axios(config)
+        .then((response) => { })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+
+
+}
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function removeFromQueue(agentId, queue, user_Details) {
+  const axios = require('axios');
+  var APIENDPOINT = '';
+  console.log('userDetails sdsdfgsdfgsdf', user_Details)
+  // if (user_Details.Server === 'server1') {
+  //   APIENDPOINT = SOCKETENDPOINT1
+  // }
+  // if (user_Details.Server === 'server2') {
+  //   APIENDPOINT = SOCKETENDPOINT2
+  // }
+  // if (user_Details.Server === 'server3') {
+  //   APIENDPOINT = SOCKETENDPOINT3
+  // }
+  // if (user_Details.Server === 'server4') {
+  //   APIENDPOINT = SOCKETENDPOINT4
+  // }
+  console.log('remove', agentId);
+  const config1 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT1
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config1)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  const config2 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT2
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config2)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  const config3 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT3
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config3)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  const config4 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT4
+      }/ami/actions/rmq?Queue=${queue
+      }&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config4)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  const config5 = {
+    method: 'get',
+    url:
+      `${SOCKETENDPOINT5
+      }/ami/actions/rmq?Queue=7003&Interface=${agentId}`,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  axios(config5)
+    .then((response) => {
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   const classes = useStyles();

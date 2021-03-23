@@ -11,7 +11,7 @@ import {
   getDealerInvoiceDetails,
   getSingleInvoiceDetails
 } from '../../DashboardView/apiCalls';
-import { Agent_service_url } from '../../../utils/endpoints';
+import { AGENT_SERVICE_URL } from '../../../utils/endpoints';
 import CustomBreadcrumbs from 'src/components/CustomBreadcrumbs';
 import DownloadReport from '../../DashboardView/DownloadReport';
 
@@ -41,7 +41,7 @@ function Invoices({
 
   const orderIdPrev = useRef(orderId);
 
-  const agentServiceURL = `${Agent_service_url}/`;
+  const agentServiceURL = `${AGENT_SERVICE_URL}/`;
   function getALF() {
     const axios = require('axios');
     let data = '';

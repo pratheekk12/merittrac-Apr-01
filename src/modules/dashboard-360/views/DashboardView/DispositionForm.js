@@ -7,7 +7,7 @@ import {
   UPDATE_CURRENT_STATUS,
   GET_INTERACTION_BY_DISTRIBUTOR_ID,
   GET_INTERACTION_BY_CALLER_NUMBER,
-  SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT4, SOCKETENDPOINT3, Agent_service_url
+  SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT4, SOCKETENDPOINT3, AGENT_SERVICE_URL
 } from 'src/modules/dashboard-360/utils/endpoints';
 import {
   Button,
@@ -76,7 +76,7 @@ export default function DispositionForm(props) {
   /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +124,10 @@ export default function DispositionForm(props) {
         if (getKeyByValue(items, data[0]) === 'server4') {
           APIENDPOINT = 'http://106.51.86.75:42005';
         }
+        if (getKeyByValue(items, data[0]) === 'server5') {
+          APIENDPOINT = 'http://106.51.86.75:42009';
+          queue = 7003
+        }
         const config = {
           method: 'get',
           url:
@@ -153,7 +157,7 @@ export default function DispositionForm(props) {
   /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  
+
   /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function removeFromQueue(agentId, queue, user_Details) {
@@ -183,74 +187,74 @@ export default function DispositionForm(props) {
         'Content-Type': 'application/json'
       }
     };
-  
+
     axios(config1)
       .then((response) => {
-  
+
       })
       .catch((error) => {
         console.log(error);
       });
-  
-  
-      const config2 = {
-        method: 'get',
-        url:
-          `${SOCKETENDPOINT2
-          }/ami/actions/rmq?Queue=${queue
-          }&Interface=${agentId}`,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-    
-      axios(config2)
-        .then((response) => {
-    
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  
-  
-        const config3 = {
-          method: 'get',
-          url:
-            `${SOCKETENDPOINT3
-            }/ami/actions/rmq?Queue=${queue
-            }&Interface=${agentId}`,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
-      
-        axios(config3)
-          .then((response) => {
-      
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-  
-  
-          const config4 = {
-            method: 'get',
-            url:
-              `${SOCKETENDPOINT4
-              }/ami/actions/rmq?Queue=${queue
-              }&Interface=${agentId}`,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          };
-        
-          axios(config4)
-            .then((response) => {
-        
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+
+
+    const config2 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT2
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config2)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config3 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT3
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config3)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+
+    const config4 = {
+      method: 'get',
+      url:
+        `${SOCKETENDPOINT4
+        }/ami/actions/rmq?Queue=${queue
+        }&Interface=${agentId}`,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    axios(config4)
+      .then((response) => {
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,7 +376,7 @@ export default function DispositionForm(props) {
   ];
   const classes = useStyle();
   const formRef = useRef({});
-  const agentServiceURL = `${Agent_service_url}/`;
+  const agentServiceURL = `${AGENT_SERVICE_URL}/`;
   const [category, setCategory] = useState({
     value: 'Enquiry',
     label: 'Enquiry'
@@ -644,7 +648,7 @@ export default function DispositionForm(props) {
 
     localStorage.setItem('callDispositionStatus', 'Disposed');
     var serverPrefix = localStorage.getItem('callUniqueId');
-   
+
     // if (user_Details.Server === 'server1') {
     //   serverPrefix = `325${localStorage.getItem('callUniqueId')}`
     // }

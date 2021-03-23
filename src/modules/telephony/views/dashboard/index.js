@@ -18,7 +18,7 @@ import {
 import {
   GET_INBOUND_DASHBOARD_DATA,
   GET_INTERACTION_BY_AGENT_SIP_ID,
-  Agent_service_url
+  AGENT_SERVICE_URL
 } from 'src/modules/dashboard-360/utils/endpoints';
 import CallIcon from '@material-ui/icons/Call';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
@@ -201,7 +201,7 @@ const Inbound = () => {
 
     const axios = require('axios');
     let data = '';
-    let u = Agent_service_url
+    let u = AGENT_SERVICE_URL
     let config = {
       method: 'get',
       url: u + GET_INTERACTION_BY_AGENT_SIP_ID + localStorage.getItem('AgentSIPID') + '',
