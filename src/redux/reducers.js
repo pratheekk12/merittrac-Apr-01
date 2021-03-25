@@ -11,18 +11,20 @@ import {
 
 const logInInitialState = false;
 const accountTypeInitialState = '';
+const userDataInitialState = ""
 const agentInitialState = {
-  "AgentType":"",
-  "role":"",
-  "callUniqueId":"",
-  "distributer_id":"",
-  "callStatusId":"",
-  "callDispositionStatus":"",
-  "callType":"",
-  "callEvent":"",
-  "callerNumber":"",
-  "callStatus":"",
-  "AgentSIPID":""
+  "AgentType": "",
+  "role": "",
+  "callUniqueId": "",
+  "distributer_id": "",
+  "callStatusId": "",
+  "callDispositionStatus": "",
+  "callType": "",
+  "callEvent": "",
+  "callerNumber": "",
+  "callStatus": "",
+  "AgentSIPID": "",
+
 }
 
 export const logInState = (state = logInInitialState, action) => {
@@ -45,7 +47,7 @@ export const userData = (state = null, action) => {
   }
 };
 
-export const agentCurrentStatus = (state = agentInitialState, action) =>{
+export const agentCurrentStatus = (state = agentInitialState, action) => {
   switch (action.type) {
     case SET_AGENT_CURRENT_STATUS: {
       return action.payload
