@@ -140,7 +140,7 @@ const Dashboard = ({
   const reduxState = useSelector(state => state);
   const user_Details = useSelector(state => state.userData)
   const [tab, setTab] = useState(0);
-  const [loadingDetails, setLoadingDetails] = useState(true);
+  const [loadingDetails, setLoadingDetails] = useState(false);
   const [rootData, setRootData] = useState(null);
   const [showCreateTicket, setShowCreateTicket] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -157,6 +157,7 @@ const Dashboard = ({
   const [ticketTypes, setTicketTypes] = useState([]);
   const [ticketType, setTicketType] = useState({});
   const [medium, setMedium] = useState([]);
+  const [loginToken, setLoginToken] = useState(true)
   const [media, setMedia] = useState({
     value: '',
     label: ''
@@ -257,6 +258,12 @@ const Dashboard = ({
         console.log(error);
       });
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('jwtToken')) {
+      setLoginToken(true)
+    }
+  }, [])
 
   function getALF() {
     const axios = require('axios');
@@ -1490,7 +1497,7 @@ const Dashboard = ({
   }, [reduxState.searchDistributor]);
 
 
-  return !loadingDetails ? (
+  return !loadingDetails && loginToken ? (
     <div style={{ position: 'relative' }}>
       {currentCall.callStatus === 'connected' && currentCall.callDispositionStatus != 'Disposed' ? (
         <div>
