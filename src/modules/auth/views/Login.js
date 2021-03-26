@@ -184,7 +184,7 @@ function addToQueue(agentId, queue, user_Details) {
       delete items['__v'];
 
       var data = [];
-      data.push(items.server1, items.server2, items.server3, items.server4)
+      data.push(items.server1, items.server2, items.server3, items.server4, items.server5)
       data = data.sort((a, b) => parseFloat(a) - parseFloat(b));
 
       function getKeyByValue(object, value) {
