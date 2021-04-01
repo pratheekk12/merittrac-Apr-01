@@ -15,7 +15,8 @@ import {
   Typography,
   InputBase,
   fade,
-  Tooltip
+  Tooltip,
+  Button
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -282,6 +283,7 @@ const TopBar = ({
   const classes = useStyles();
   const [notifications] = useState([]);
   const [searchText, setSearchText] = useState('');
+  let history = useHistory();
   useEffect(() => {
     // const apiUrl = config.APIS_URL + '/access/email/' + userData.email;
     // fetch(apiUrl)
@@ -398,6 +400,17 @@ const TopBar = ({
           />
         </div> */}
         <Box flexGrow={1} />
+        <IconButton color="inherit" onClick={() => history.push('/dash360')}>
+          <Badge
+            badgeContent={notifications.length}
+            color="primary"
+            variant="dot"
+          >
+            <Button variant="contained" color="secondary" > Fetch Info </Button>
+          </Badge>
+        </IconButton>
+
+
         <Hidden mdDown>
           {localStorage.getItem("role") === "Agent" ? <Typography className={classes.title} variant="h5" noWrap>
             <Link to="/dash360" className="color-white">
@@ -424,19 +437,9 @@ const TopBar = ({
           ) : (
             <></>
           )}
-
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
+          {/* <IconButton color="inherit">
             <AccountBoxRoundedIcon />
-          </IconButton>
+          </IconButton> */}
           <Tooltip title="Logout">
             <IconButton color="inherit" onClick={() => logoutUser()}>
               <ExitToAppIcon />

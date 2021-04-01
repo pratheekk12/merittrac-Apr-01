@@ -63,6 +63,8 @@ import { setAgentCurrentStatus } from 'src/redux/action';
 import DistributorSelectPopup from './DistributorSelectModal';
 import data from '../customer/CustomerListView/data';
 import { da } from 'date-fns/locale';
+import { Link, Redirect } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 // import CreateCaller from '../../../agentForm/views/dashboard/Createcaller'
 
 
@@ -912,516 +914,516 @@ const Dashboard = ({
       }
 
     })
-    socket1.on('ringing1', data => {
-      console.log('ringing1', data);
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // socket1.on('ringing1', data => {
+    //   console.log('ringing1', data);
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('channel', data.event.Channel)
-        //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('channel', data.event.Channel)
+    //     //   console.log('AstriskEventBridgeOutbound', data);
 
-        // setCurrentCallDetails(
-        //   localStorage.getItem('callStatusId'),
-        //   data.Uniqueid,
-        //   agent.AgentType,
-        //   'connected',
-        //   'Bridge',
-        //   'NotDisposed',
-        //   '',
-        //   localStorage.getItem('breakStatus')
-        // );
-      }
-    });
+    //     // setCurrentCallDetails(
+    //     //   localStorage.getItem('callStatusId'),
+    //     //   data.Uniqueid,
+    //     //   agent.AgentType,
+    //     //   'connected',
+    //     //   'Bridge',
+    //     //   'NotDisposed',
+    //     //   '',
+    //     //   localStorage.getItem('breakStatus')
+    //     // );
+    //   }
+    // });
 
-    socket1.on('ringing2', data => {
-      console.log('ringing2', data)
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // socket1.on('ringing2', data => {
+    //   console.log('ringing2', data)
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "325" + data.event.Uniqueid)
-        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
-        // //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('callUniqueId', "325" + data.event.Uniqueid)
+    //     localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+    //     // //   console.log('AstriskEventBridgeOutbound', data);
 
-        //   setCurrentCallDetails(
-        //     localStorage.getItem('callStatusId'),
-        //     localStorage.getItem('callUniqueId'),
-        //     agent.AgentType,
-        //     'connected',
-        //     'Bridge',
-        //     'NotDisposed',
-        //     data.contactNumber,
-        //     localStorage.getItem('breakStatus')
-        //   );
-      }
-    });
-    socket1.on('transfercallnumber', data => {
-      if (localStorage.getItem('Agenttype') === 'L2') {
-        localStorage.setItem('callerNumber', data.contactnumber)
-      }
+    //     //   setCurrentCallDetails(
+    //     //     localStorage.getItem('callStatusId'),
+    //     //     localStorage.getItem('callUniqueId'),
+    //     //     agent.AgentType,
+    //     //     'connected',
+    //     //     'Bridge',
+    //     //     'NotDisposed',
+    //     //     data.contactNumber,
+    //     //     localStorage.getItem('breakStatus')
+    //     //   );
+    //   }
+    // });
+    // socket1.on('transfercallnumber', data => {
+    //   if (localStorage.getItem('Agenttype') === 'L2') {
+    //     localStorage.setItem('callerNumber', data.contactnumber)
+    //   }
 
-    })
-    socket1.on('connected', data => {
-      console.log('connected', data);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // getInitialData();
-        // console.log('AstriskEventBridgeInbound', data);
-        localStorage.setItem('distributer_id', agent.AgentSipId);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          agent.AgentType,
-          'connected',
-          'Bridge',
-          'NotDisposed',
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-        // removeFromQueue(agent.AgentSipId, '7001');
-      }
-    });
-    socket1.on('hangup', data => {
-      console.log('hangup', data);
-      // var str = data.Channel;
-      // var agentsipid = str.substring(4, 8);
-      // console.log('agentsipid', agentsipid);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // console.log('AstriskEventHangup', data);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          localStorage.getItem('callType'),
-          'disconnected',
-          'Hangup',
-          localStorage.getItem('callDispositionStatus'),
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-      }
-    });
-    /////////////////////////////////////////////
+    // })
+    // socket1.on('connected', data => {
+    //   console.log('connected', data);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // getInitialData();
+    //     // console.log('AstriskEventBridgeInbound', data);
+    //     localStorage.setItem('distributer_id', agent.AgentSipId);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       agent.AgentType,
+    //       'connected',
+    //       'Bridge',
+    //       'NotDisposed',
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //     // removeFromQueue(agent.AgentSipId, '7001');
+    //   }
+    // });
+    // socket1.on('hangup', data => {
+    //   console.log('hangup', data);
+    //   // var str = data.Channel;
+    //   // var agentsipid = str.substring(4, 8);
+    //   // console.log('agentsipid', agentsipid);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // console.log('AstriskEventHangup', data);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       localStorage.getItem('callType'),
+    //       'disconnected',
+    //       'Hangup',
+    //       localStorage.getItem('callDispositionStatus'),
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //   }
+    // });
+    // /////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //1//////////////////////////////////////////////////////////////////////////////////
-    socket2.on('AstriskEvent', data => {
-      if (data.Event === 'Hangup') {
-        // console.log('AstriskEvent', data)
-      }
-      if (data.Event === 'Bridge') {
-        // console.log('AstriskEvent', data)
-      }
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // //1//////////////////////////////////////////////////////////////////////////////////
+    // socket2.on('AstriskEvent', data => {
+    //   if (data.Event === 'Hangup') {
+    //     // console.log('AstriskEvent', data)
+    //   }
+    //   if (data.Event === 'Bridge') {
+    //     // console.log('AstriskEvent', data)
+    //   }
 
-    })
-    socket2.on('ringing1', data => {
-      console.log('ringing1', data);
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // })
+    // socket2.on('ringing1', data => {
+    //   console.log('ringing1', data);
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('channel', data.event.Channel)
-        //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('channel', data.event.Channel)
+    //     //   console.log('AstriskEventBridgeOutbound', data);
 
-        // setCurrentCallDetails(
-        //   localStorage.getItem('callStatusId'),
-        //   data.Uniqueid,
-        //   agent.AgentType,
-        //   'connected',
-        //   'Bridge',
-        //   'NotDisposed',
-        //   '',
-        //   localStorage.getItem('breakStatus')
-        // );
-      }
-    });
+    //     // setCurrentCallDetails(
+    //     //   localStorage.getItem('callStatusId'),
+    //     //   data.Uniqueid,
+    //     //   agent.AgentType,
+    //     //   'connected',
+    //     //   'Bridge',
+    //     //   'NotDisposed',
+    //     //   '',
+    //     //   localStorage.getItem('breakStatus')
+    //     // );
+    //   }
+    // });
 
-    socket2.on('ringing2', data => {
-      console.log('ringing2', data)
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // socket2.on('ringing2', data => {
+    //   console.log('ringing2', data)
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "331" + data.event.Uniqueid)
-        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
-        // //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('callUniqueId', "331" + data.event.Uniqueid)
+    //     localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+    //     // //   console.log('AstriskEventBridgeOutbound', data);
 
-        //   setCurrentCallDetails(
-        //     localStorage.getItem('callStatusId'),
-        //     localStorage.getItem('callUniqueId'),
-        //     agent.AgentType,
-        //     'connected',
-        //     'Bridge',
-        //     'NotDisposed',
-        //     data.contactNumber,
-        //     localStorage.getItem('breakStatus')
-        //   );
-      }
-    });
-    socket2.on('transfercallnumber', data => {
-      if (localStorage.getItem('Agenttype') === 'L2') {
-        localStorage.setItem('callerNumber', data.contactnumber)
-      }
+    //     //   setCurrentCallDetails(
+    //     //     localStorage.getItem('callStatusId'),
+    //     //     localStorage.getItem('callUniqueId'),
+    //     //     agent.AgentType,
+    //     //     'connected',
+    //     //     'Bridge',
+    //     //     'NotDisposed',
+    //     //     data.contactNumber,
+    //     //     localStorage.getItem('breakStatus')
+    //     //   );
+    //   }
+    // });
+    // socket2.on('transfercallnumber', data => {
+    //   if (localStorage.getItem('Agenttype') === 'L2') {
+    //     localStorage.setItem('callerNumber', data.contactnumber)
+    //   }
 
-    })
-    socket2.on('connected', data => {
-      console.log('connected', data);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // getInitialData();
-        // console.log('AstriskEventBridgeInbound', data);
-        localStorage.setItem('distributer_id', agent.AgentSipId);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          agent.AgentType,
-          'connected',
-          'Bridge',
-          'NotDisposed',
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-        // removeFromQueue(agent.AgentSipId, '7001');
-      }
-    });
-    socket2.on('hangup', data => {
-      console.log('hangup', data);
-      // var str = data.Channel;
-      // var agentsipid = str.substring(4, 8);
-      // console.log('agentsipid', agentsipid);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // console.log('AstriskEventHangup', data);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          localStorage.getItem('callType'),
-          'disconnected',
-          'Hangup',
-          localStorage.getItem('callDispositionStatus'),
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-      }
-    });
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //socket3//////////////////////////////////////////////////////////////////////////////////
-    socket3.on('AstriskEvent', data => {
-      if (data.Event === 'Hangup') {
-        // console.log('AstriskEvent', data)
-      }
-      if (data.Event === 'Bridge') {
-        // console.log('AstriskEvent', data)
-      }
-
-    })
-    socket3.on('ringing1', data => {
-      console.log('ringing1', data);
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-
-        localStorage.setItem('channel', data.event.Channel)
-        //   console.log('AstriskEventBridgeOutbound', data);
-
-        // setCurrentCallDetails(
-        //   localStorage.getItem('callStatusId'),
-        //   data.Uniqueid,
-        //   agent.AgentType,
-        //   'connected',
-        //   'Bridge',
-        //   'NotDisposed',
-        //   '',
-        //   localStorage.getItem('breakStatus')
-        // );
-      }
-    });
-
-    socket3.on('ringing2', data => {
-      console.log('ringing2', data)
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-
-        localStorage.setItem('callUniqueId', "332" + data.event.Uniqueid)
-        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
-        // //   console.log('AstriskEventBridgeOutbound', data);
-
-        //   setCurrentCallDetails(
-        //     localStorage.getItem('callStatusId'),
-        //     localStorage.getItem('callUniqueId'),
-        //     agent.AgentType,
-        //     'connected',
-        //     'Bridge',
-        //     'NotDisposed',
-        //     data.contactNumber,
-        //     localStorage.getItem('breakStatus')
-        //   );
-      }
-    });
-    socket3.on('transfercallnumber', data => {
-      if (localStorage.getItem('Agenttype') === 'L2') {
-        localStorage.setItem('callerNumber', data.contactnumber)
-      }
-
-    })
-    socket3.on('connected', data => {
-      console.log('connected', data);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // getInitialData();
-        // console.log('AstriskEventBridgeInbound', data);
-        localStorage.setItem('distributer_id', agent.AgentSipId);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          agent.AgentType,
-          'connected',
-          'Bridge',
-          'NotDisposed',
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-        // removeFromQueue(agent.AgentSipId, '7001');
-      }
-    });
-    socket3.on('hangup', data => {
-      console.log('hangup', data);
-      // var str = data.Channel;
-      // var agentsipid = str.substring(4, 8);
-      // console.log('agentsipid', agentsipid);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // console.log('AstriskEventHangup', data);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          localStorage.getItem('callType'),
-          'disconnected',
-          'Hangup',
-          localStorage.getItem('callDispositionStatus'),
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-      }
-    });
+    // })
+    // socket2.on('connected', data => {
+    //   console.log('connected', data);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // getInitialData();
+    //     // console.log('AstriskEventBridgeInbound', data);
+    //     localStorage.setItem('distributer_id', agent.AgentSipId);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       agent.AgentType,
+    //       'connected',
+    //       'Bridge',
+    //       'NotDisposed',
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //     // removeFromQueue(agent.AgentSipId, '7001');
+    //   }
+    // });
+    // socket2.on('hangup', data => {
+    //   console.log('hangup', data);
+    //   // var str = data.Channel;
+    //   // var agentsipid = str.substring(4, 8);
+    //   // console.log('agentsipid', agentsipid);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // console.log('AstriskEventHangup', data);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       localStorage.getItem('callType'),
+    //       'disconnected',
+    //       'Hangup',
+    //       localStorage.getItem('callDispositionStatus'),
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //   }
+    // });
 
 
-    /////////////////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //socket4//////////////////////////////////////////////////////////////////////////////////
-    socket4.on('AstriskEvent', data => {
-      if (data.Event === 'Hangup') {
-        // console.log('AstriskEvent', data)
-      }
-      if (data.Event === 'Bridge') {
-        // console.log('AstriskEvent', data)
-      }
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // //socket3//////////////////////////////////////////////////////////////////////////////////
+    // socket3.on('AstriskEvent', data => {
+    //   if (data.Event === 'Hangup') {
+    //     // console.log('AstriskEvent', data)
+    //   }
+    //   if (data.Event === 'Bridge') {
+    //     // console.log('AstriskEvent', data)
+    //   }
 
-    })
-    socket4.on('ringing1', data => {
-      console.log('ringing1', data);
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // })
+    // socket3.on('ringing1', data => {
+    //   console.log('ringing1', data);
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('channel', data.event.Channel)
-        //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('channel', data.event.Channel)
+    //     //   console.log('AstriskEventBridgeOutbound', data);
 
-        // setCurrentCallDetails(
-        //   localStorage.getItem('callStatusId'),
-        //   data.Uniqueid,
-        //   agent.AgentType,
-        //   'connected',
-        //   'Bridge',
-        //   'NotDisposed',
-        //   '',
-        //   localStorage.getItem('breakStatus')
-        // );
-      }
-    });
+    //     // setCurrentCallDetails(
+    //     //   localStorage.getItem('callStatusId'),
+    //     //   data.Uniqueid,
+    //     //   agent.AgentType,
+    //     //   'connected',
+    //     //   'Bridge',
+    //     //   'NotDisposed',
+    //     //   '',
+    //     //   localStorage.getItem('breakStatus')
+    //     // );
+    //   }
+    // });
 
-    socket4.on('ringing2', data => {
-      console.log('ringing2', data)
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // socket3.on('ringing2', data => {
+    //   console.log('ringing2', data)
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "334" + data.event.Uniqueid)
-        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
-        // //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('callUniqueId', "332" + data.event.Uniqueid)
+    //     localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+    //     // //   console.log('AstriskEventBridgeOutbound', data);
 
-        //   setCurrentCallDetails(
-        //     localStorage.getItem('callStatusId'),
-        //     localStorage.getItem('callUniqueId'),
-        //     agent.AgentType,
-        //     'connected',
-        //     'Bridge',
-        //     'NotDisposed',
-        //     data.contactNumber,
-        //     localStorage.getItem('breakStatus')
-        //   );
-      }
-    });
-    socket4.on('transfercallnumber', data => {
-      if (localStorage.getItem('Agenttype') === 'L2') {
-        localStorage.setItem('callerNumber', data.contactnumber)
-      }
+    //     //   setCurrentCallDetails(
+    //     //     localStorage.getItem('callStatusId'),
+    //     //     localStorage.getItem('callUniqueId'),
+    //     //     agent.AgentType,
+    //     //     'connected',
+    //     //     'Bridge',
+    //     //     'NotDisposed',
+    //     //     data.contactNumber,
+    //     //     localStorage.getItem('breakStatus')
+    //     //   );
+    //   }
+    // });
+    // socket3.on('transfercallnumber', data => {
+    //   if (localStorage.getItem('Agenttype') === 'L2') {
+    //     localStorage.setItem('callerNumber', data.contactnumber)
+    //   }
 
-    })
-    socket4.on('connected', data => {
-      console.log('connected', data);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // getInitialData();
-        // console.log('AstriskEventBridgeInbound', data);
-        localStorage.setItem('distributer_id', agent.AgentSipId);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          agent.AgentType,
-          'connected',
-          'Bridge',
-          'NotDisposed',
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-        // removeFromQueue(agent.AgentSipId, '7001');
-      }
-    });
-    socket4.on('hangup', data => {
-      console.log('hangup', data);
-      // var str = data.Channel;
-      // var agentsipid = str.substring(4, 8);
-      // console.log('agentsipid', agentsipid);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // console.log('AstriskEventHangup', data);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          localStorage.getItem('callType'),
-          'disconnected',
-          'Hangup',
-          localStorage.getItem('callDispositionStatus'),
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-      }
-    });
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////
+    // })
+    // socket3.on('connected', data => {
+    //   console.log('connected', data);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // getInitialData();
+    //     // console.log('AstriskEventBridgeInbound', data);
+    //     localStorage.setItem('distributer_id', agent.AgentSipId);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       agent.AgentType,
+    //       'connected',
+    //       'Bridge',
+    //       'NotDisposed',
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //     // removeFromQueue(agent.AgentSipId, '7001');
+    //   }
+    // });
+    // socket3.on('hangup', data => {
+    //   console.log('hangup', data);
+    //   // var str = data.Channel;
+    //   // var agentsipid = str.substring(4, 8);
+    //   // console.log('agentsipid', agentsipid);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // console.log('AstriskEventHangup', data);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       localStorage.getItem('callType'),
+    //       'disconnected',
+    //       'Hangup',
+    //       localStorage.getItem('callDispositionStatus'),
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //   }
+    // });
 
 
+    // /////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    //socket5//////////////////////////////////////////////////////////////////////////////////
-    socket5.on('AstriskEvent', data => {
-      if (data.Event === 'Hangup') {
-        // console.log('AstriskEvent', data)
-      }
-      if (data.Event === 'Bridge') {
-        // console.log('AstriskEvent', data)
-      }
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // //socket4//////////////////////////////////////////////////////////////////////////////////
+    // socket4.on('AstriskEvent', data => {
+    //   if (data.Event === 'Hangup') {
+    //     // console.log('AstriskEvent', data)
+    //   }
+    //   if (data.Event === 'Bridge') {
+    //     // console.log('AstriskEvent', data)
+    //   }
 
-    })
-    socket5.on('ringing1', data => {
-      console.log('ringing1', data);
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // })
+    // socket4.on('ringing1', data => {
+    //   console.log('ringing1', data);
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('channel', data.event.Channel)
-        //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('channel', data.event.Channel)
+    //     //   console.log('AstriskEventBridgeOutbound', data);
 
-        // setCurrentCallDetails(
-        //   localStorage.getItem('callStatusId'),
-        //   data.Uniqueid,
-        //   agent.AgentType,
-        //   'connected',
-        //   'Bridge',
-        //   'NotDisposed',
-        //   '',
-        //   localStorage.getItem('breakStatus')
-        // );
-      }
-    });
+    //     // setCurrentCallDetails(
+    //     //   localStorage.getItem('callStatusId'),
+    //     //   data.Uniqueid,
+    //     //   agent.AgentType,
+    //     //   'connected',
+    //     //   'Bridge',
+    //     //   'NotDisposed',
+    //     //   '',
+    //     //   localStorage.getItem('breakStatus')
+    //     // );
+    //   }
+    // });
 
-    socket5.on('ringing2', data => {
-      console.log('ringing2', data)
-      // var Channel1 = data.Channel1;
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
+    // socket4.on('ringing2', data => {
+    //   console.log('ringing2', data)
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
 
-        localStorage.setItem('callUniqueId', "3011" + data.event.Uniqueid)
-        localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
-        // //   console.log('AstriskEventBridgeOutbound', data);
+    //     localStorage.setItem('callUniqueId', "334" + data.event.Uniqueid)
+    //     localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+    //     // //   console.log('AstriskEventBridgeOutbound', data);
 
-        //   setCurrentCallDetails(
-        //     localStorage.getItem('callStatusId'),
-        //     localStorage.getItem('callUniqueId'),
-        //     agent.AgentType,
-        //     'connected',
-        //     'Bridge',
-        //     'NotDisposed',
-        //     data.contactNumber,
-        //     localStorage.getItem('breakStatus')
-        //   );
-      }
-    });
-    socket5.on('transfercallnumber', data => {
-      if (localStorage.getItem('Agenttype') === 'L2') {
-        localStorage.setItem('callerNumber', data.contactnumber)
-      }
+    //     //   setCurrentCallDetails(
+    //     //     localStorage.getItem('callStatusId'),
+    //     //     localStorage.getItem('callUniqueId'),
+    //     //     agent.AgentType,
+    //     //     'connected',
+    //     //     'Bridge',
+    //     //     'NotDisposed',
+    //     //     data.contactNumber,
+    //     //     localStorage.getItem('breakStatus')
+    //     //   );
+    //   }
+    // });
+    // socket4.on('transfercallnumber', data => {
+    //   if (localStorage.getItem('Agenttype') === 'L2') {
+    //     localStorage.setItem('callerNumber', data.contactnumber)
+    //   }
 
-    })
-    socket5.on('connected', data => {
-      console.log('connected', data);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // getInitialData();
-        // console.log('AstriskEventBridgeInbound', data);
-        localStorage.setItem('distributer_id', agent.AgentSipId);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          agent.AgentType,
-          'connected',
-          'Bridge',
-          'NotDisposed',
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-        // removeFromQueue(agent.AgentSipId, '7001');
-      }
-    });
-    socket5.on('hangup', data => {
-      console.log('hangup', data);
-      // var str = data.Channel;
-      // var agentsipid = str.substring(4, 8);
-      // console.log('agentsipid', agentsipid);
-      var agentExtension = data.agentNumber;
-      if (agentExtension === agent.AgentSipId) {
-        // console.log('AstriskEventHangup', data);
-        setCurrentCallDetails(
-          localStorage.getItem('callStatusId'),
-          localStorage.getItem('callUniqueId'),
-          localStorage.getItem('callType'),
-          'disconnected',
-          'Hangup',
-          localStorage.getItem('callDispositionStatus'),
-          localStorage.getItem('callerNumber'),
-          localStorage.getItem('breakStatus')
-        );
-      }
-    });
+    // })
+    // socket4.on('connected', data => {
+    //   console.log('connected', data);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // getInitialData();
+    //     // console.log('AstriskEventBridgeInbound', data);
+    //     localStorage.setItem('distributer_id', agent.AgentSipId);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       agent.AgentType,
+    //       'connected',
+    //       'Bridge',
+    //       'NotDisposed',
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //     // removeFromQueue(agent.AgentSipId, '7001');
+    //   }
+    // });
+    // socket4.on('hangup', data => {
+    //   console.log('hangup', data);
+    //   // var str = data.Channel;
+    //   // var agentsipid = str.substring(4, 8);
+    //   // console.log('agentsipid', agentsipid);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // console.log('AstriskEventHangup', data);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       localStorage.getItem('callType'),
+    //       'disconnected',
+    //       'Hangup',
+    //       localStorage.getItem('callDispositionStatus'),
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //   }
+    // });
+
+
+    // /////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    // ////////////////////////////////////////////////////////////////////////////////////////////
+    // //socket5//////////////////////////////////////////////////////////////////////////////////
+    // socket5.on('AstriskEvent', data => {
+    //   if (data.Event === 'Hangup') {
+    //     // console.log('AstriskEvent', data)
+    //   }
+    //   if (data.Event === 'Bridge') {
+    //     // console.log('AstriskEvent', data)
+    //   }
+
+    // })
+    // socket5.on('ringing1', data => {
+    //   console.log('ringing1', data);
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+
+    //     localStorage.setItem('channel', data.event.Channel)
+    //     //   console.log('AstriskEventBridgeOutbound', data);
+
+    //     // setCurrentCallDetails(
+    //     //   localStorage.getItem('callStatusId'),
+    //     //   data.Uniqueid,
+    //     //   agent.AgentType,
+    //     //   'connected',
+    //     //   'Bridge',
+    //     //   'NotDisposed',
+    //     //   '',
+    //     //   localStorage.getItem('breakStatus')
+    //     // );
+    //   }
+    // });
+
+    // socket5.on('ringing2', data => {
+    //   console.log('ringing2', data)
+    //   // var Channel1 = data.Channel1;
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+
+    //     localStorage.setItem('callUniqueId', "3011" + data.event.Uniqueid)
+    //     localStorage.setItem('callerNumber', data.event.ConnectedLineNum)
+    //     // //   console.log('AstriskEventBridgeOutbound', data);
+
+    //     //   setCurrentCallDetails(
+    //     //     localStorage.getItem('callStatusId'),
+    //     //     localStorage.getItem('callUniqueId'),
+    //     //     agent.AgentType,
+    //     //     'connected',
+    //     //     'Bridge',
+    //     //     'NotDisposed',
+    //     //     data.contactNumber,
+    //     //     localStorage.getItem('breakStatus')
+    //     //   );
+    //   }
+    // });
+    // socket5.on('transfercallnumber', data => {
+    //   if (localStorage.getItem('Agenttype') === 'L2') {
+    //     localStorage.setItem('callerNumber', data.contactnumber)
+    //   }
+
+    // })
+    // socket5.on('connected', data => {
+    //   console.log('connected', data);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // getInitialData();
+    //     // console.log('AstriskEventBridgeInbound', data);
+    //     localStorage.setItem('distributer_id', agent.AgentSipId);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       agent.AgentType,
+    //       'connected',
+    //       'Bridge',
+    //       'NotDisposed',
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //     // removeFromQueue(agent.AgentSipId, '7001');
+    //   }
+    // });
+    // socket5.on('hangup', data => {
+    //   console.log('hangup', data);
+    //   // var str = data.Channel;
+    //   // var agentsipid = str.substring(4, 8);
+    //   // console.log('agentsipid', agentsipid);
+    //   var agentExtension = data.agentNumber;
+    //   if (agentExtension === agent.AgentSipId) {
+    //     // console.log('AstriskEventHangup', data);
+    //     setCurrentCallDetails(
+    //       localStorage.getItem('callStatusId'),
+    //       localStorage.getItem('callUniqueId'),
+    //       localStorage.getItem('callType'),
+    //       'disconnected',
+    //       'Hangup',
+    //       localStorage.getItem('callDispositionStatus'),
+    //       localStorage.getItem('callerNumber'),
+    //       localStorage.getItem('breakStatus')
+    //     );
+    //   }
+    // });
 
 
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -1429,30 +1431,30 @@ const Dashboard = ({
 
 
     return () => {
-      socket1.off('ringing');
-      socket1.off('connected');
-      socket1.off('hangup');
-      socket1.off('transfercallnumber');
+      // socket1.off('ringing');
+      // socket1.off('connected');
+      // socket1.off('hangup');
+      // socket1.off('transfercallnumber');
 
-      socket2.off('ringing');
-      socket2.off('connected');
-      socket2.off('hangup');
-      socket2.off('transfercallnumber');
+      // socket2.off('ringing');
+      // socket2.off('connected');
+      // socket2.off('hangup');
+      // socket2.off('transfercallnumber');
 
-      socket3.off('ringing');
-      socket3.off('connected');
-      socket3.off('hangup');
-      socket3.off('transfercallnumber');
+      // socket3.off('ringing');
+      // socket3.off('connected');
+      // socket3.off('hangup');
+      // socket3.off('transfercallnumber');
 
-      socket4.off('ringing');
-      socket4.off('connected');
-      socket4.off('hangup');
-      socket4.off('transfercallnumber');
+      // socket4.off('ringing');
+      // socket4.off('connected');
+      // socket4.off('hangup');
+      // socket4.off('transfercallnumber');
 
-      socket5.off('ringing');
-      socket5.off('connected');
-      socket5.off('hangup');
-      socket5.off('transfercallnumber');
+      // socket5.off('ringing');
+      // socket5.off('connected');
+      // socket5.off('hangup');
+      // socket5.off('transfercallnumber');
 
     };
   }, []);
@@ -1486,6 +1488,8 @@ const Dashboard = ({
     currentCall.callStatus,
     currentCall.breakStatus
   ]);
+
+  let history = useHistory();
 
   useEffect(() => {
     console.log("currentCall", currentCall)
@@ -1533,16 +1537,20 @@ const Dashboard = ({
         </div>
       ) : null}
       <CustomBreadcrumbs />
-      {agent.AgentType === 'Outbound' &&
-        localStorage.getItem('callDispositionStatus') === 'Disposed' &&
-        localStorage.getItem('callStatus') === 'disconnected' &&
-        localStorage.getItem('breakStatus') === 'OUT' ? (
-        <div>
-          <Input value={mobile} onChange={onChange} margin="dense" />
-          <CallIcon onClick={onClick} />
+      {/* <button onClick={history.push("/dash360")}>fetch info</button> */}
 
-        </div>
-      ) : null}
+      {
+        agent.AgentType === 'Outbound' &&
+          localStorage.getItem('callDispositionStatus') === 'Disposed' &&
+          localStorage.getItem('callStatus') === 'disconnected' &&
+          localStorage.getItem('breakStatus') === 'OUT' ? (
+          <div>
+            <Input value={mobile} onChange={onChange} margin="dense" />
+            <CallIcon onClick={onClick} />
+
+          </div>
+        ) : null
+      }
       <Page className={classes.root} title="Dashboard">
         <Container maxWidth={false}>
           <Grid container spacing={3}>
@@ -1757,7 +1765,7 @@ const Dashboard = ({
         </Container>
       </Page>
 
-    </div>
+    </div >
   ) : (
     <MainLoader />
   );

@@ -36,7 +36,7 @@ export default [
     crumb: 'Student Interaction',
     requiresAuth: true
   },
- 
+
   {
     path: '/telephony',
     routes: telephonyRoutes,
@@ -45,7 +45,7 @@ export default [
     crumb: 'Telephony',
     requiresAuth: true
   },
-   
+
   {
     path: '/faq',
     routes: faqRoutes,
@@ -58,7 +58,7 @@ export default [
     path: '/agent',
     routes: agentRoutes,
     key: 'dashboardagent',
-    component:agentform,
+    component: agentform,
     crumb: 'Agents',
     requiresAuth: true
   },
@@ -66,7 +66,7 @@ export default [
     path: '/group',
     routes: groupRoutes,
     key: 'dashboardgroup',
-    component:groupform,
+    component: groupform,
     crumb: 'Groups',
     requiresAuth: true
   },
@@ -77,5 +77,5 @@ export default [
     component: auth,
     requiresAuth: false
   }
-  
+
 ];
