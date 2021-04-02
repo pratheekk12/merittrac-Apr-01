@@ -647,7 +647,7 @@ const Dashboard = ({
     const interval = setInterval(() => {
       getAgentCallStatus(agentSipID)
 
-    }, 1000);
+    }, 3000);
 
   }, [])
 
