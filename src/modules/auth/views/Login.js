@@ -415,11 +415,11 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
         })
       
 
-        if (res.data.userDetails.AgentType === 'L1' && getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
+        if (res.data.userDetails.AgentType === 'L1' ) {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           // var queue=res.data.userDetails.AgentQueueStatus
-          if (res.data.userDetails.AgentQueueStatus === 'dynamic') {
-            removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+          if (res.data.userDetails.AgentQueueStatus === 'dynamic' &&  getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
+            removeFromQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails);
             addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
           }
           console.log('data resppppp', res.data)

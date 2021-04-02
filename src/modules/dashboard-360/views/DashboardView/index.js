@@ -1731,7 +1731,8 @@ const Dashboard = ({
               <Grid item lg={12} md={12} xs={12}>
 
                 <Card>
-                  <CardHeader title="Disposition Details" />
+                {currentCall.callDispositionStatus === 'NotDisposed' ? <CardHeader title={`Disposition Details-Call Reference Id :: ${localStorage.getItem('callUniqueId')}`} />
+                  :<CardHeader title={`Disposition Details`} /> }
                   <Divider />
                   {currentCall.callDispositionStatus === 'NotDisposed' &&
                     user.userType === 'Agent' ? (<CardContent>
