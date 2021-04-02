@@ -642,6 +642,16 @@ const Dashboard = ({
       });
   }
 
+  useEffect(() => {
+    const agentSipID = localStorage.getItem('AgentSIPID')
+    const interval = setInterval(() => {
+      getAgentCallStatus(agentSipID)
+
+    }, 3000);
+
+  }, [])
+
+
   function getAgentCallStatus(agentSipID) {
     console.log('calling the', agentSipID)
     var axios = require('axios');
@@ -1559,7 +1569,7 @@ const Dashboard = ({
                 <Grid item>
 
 
-                  {currentCall.callDispositionStatus === 'Disposed' && currentCall.callStatus != 'connected' ? <Button
+                  {currentCall.callDispositionStatus === 'Disposed' ? <Button
                     color="secondary"
                     variant="contained"
                     style={{ color: 'white' }}
