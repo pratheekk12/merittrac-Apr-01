@@ -31,6 +31,7 @@ import {
   AGENT_SERVICE_URL,
 } from 'src/modules/dashboard-360/utils/endpoints';
 import Iframe from 'react-iframe'
+import axios from 'axios'
 import { ExpandMore } from '@material-ui/icons';
 import FAQ from './FAQ'
 import Input from '@material-ui/core/Input';
@@ -65,6 +66,8 @@ import data from '../customer/CustomerListView/data';
 import { da } from 'date-fns/locale';
 import { Link, Redirect } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
+import {setLoggedIn} from '../../../../redux/action'
+import {useDispatch} from 'react-redux'
 // import CreateCaller from '../../../agentForm/views/dashboard/Createcaller'
 
 
@@ -235,6 +238,8 @@ const Dashboard = ({
   ] = useState(false);
   const [dealerDetails, setdealerDetails] = useState({});
   const [distributorModal, setDistributorModal] = useState({});
+
+  const dispatch = useDispatch()
   function getDLF() {
     const axios = require('axios');
     let data = '';
@@ -643,9 +648,21 @@ const Dashboard = ({
   }
 
   useEffect(() => {
+
     const agentSipID = localStorage.getItem('AgentSIPID')
-    const interval = setInterval(() => {
-      getAgentCallStatus(agentSipID)
+    const interval = setInterval(async () => {
+      const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
+      const getCurrentStatus = await axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
+      console.log('getCurrentStatus',getCurrentStatus)
+      
+      if(localStorage.getItem('jwtToken')){
+      if(getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')){
+        getAgentCallStatus(agentSipID)
+      }else{
+        localStorage.clear()
+        dispatch(setLoggedIn(false))
+      }
+    }
 
     }, 3000);
 
@@ -666,7 +683,7 @@ const Dashboard = ({
 
         if (response.data) {
           console.log('getAgentCallStatus....................', response.data);
-          updateAgentCallStatusV2(response.data[0]._id, { loginStatus: 'true' })
+          // updateAgentCallStatusV2(response.data[0]._id, { loginStatus: 'true' })
           setCurrentCallDetails(
             response.data[0]._id,
             response.data[0].agentCallUniqueId,

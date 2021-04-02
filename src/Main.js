@@ -15,6 +15,7 @@ import axios from 'axios';
 import {
   SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT3, SOCKETENDPOINT4, SOCKETENDPOINT5, UPDATE_CURRENT_STATUS
 } from './modules/dashboard-360/utils/endpoints'
+import {useHistory} from 'react-router-dom'
 
 
 function Main({
@@ -34,7 +35,7 @@ function Main({
   const dispatch = useDispatch()
   const user_Details = useSelector(state => state.userData)
 
-
+    let history = useHistory()
 
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
@@ -177,7 +178,7 @@ function Main({
         if (localStorage.getItem('jwtToken')) {
           setLoggedInMain(true);
           var test = await Axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
-            .then(response => {
+            .then(async response => {
               console.log('respose', response)
               var result = response.data.userDetails
               if (response.data.status != 200) {
@@ -196,30 +197,43 @@ function Main({
                   console.log(err);
                 }
               } else {
-                var obj = {
-                  UserID: result.UserID,
-                  AllowPublic: result.AllowPublic,
-                  UserName: result.UserName,
-                  EmployeeName: result.EmployeeName,
-                  EmailID: result.EmailID,
-                  OTP: result.OTP,
-                  tenetID: result.tenetID,
-                  tenentId: result.tenentId,
-                  tenentName: result.tenentName,
-                  roleids: result.roleids,
-                  role: result.role,
-                  modules: result.modules,
-                  External_num: result.External_num,
-                  Server: result.Server,
-                  AgentQueueStatus: result.AgentQueueStatus
+                const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
+                const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
+                console.log('getCurrentStatus',getCurrentStatus)
+
+                if(getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')){
+                  var obj = {
+                    UserID: result.UserID,
+                    AllowPublic: result.AllowPublic,
+                    UserName: result.UserName,
+                    EmployeeName: result.EmployeeName,
+                    EmailID: result.EmailID,
+                    OTP: result.OTP,
+                    tenetID: result.tenetID,
+                    tenentId: result.tenentId,
+                    tenentName: result.tenentName,
+                    roleids: result.roleids,
+                    role: result.role,
+                    modules: result.modules,
+                    External_num: result.External_num,
+                    Server: result.Server,
+                    AgentQueueStatus: result.AgentQueueStatus
+                  }
+                  setUserDetailsMain(obj)
+                  localStorage.setItem('AgentSIPID', obj.External_num);
+                  setAccountTypeMain(obj.role === 'Agent' || obj.role === 'Admin' || obj.role === 'Group admin' ? ADMIN : USER);
+                  // setAccountTypeMain(obj.role === 'Agent' ? ADMIN : USER);
+                  if (obj.role === 'Agent') {
+                    setRouteAccess(true)
+                  }
+
+                }else{
+                  localStorage.clear();
+                  setLoggedInMain(false);
+                  // history.push('/auth/login')
+                  
                 }
-                setUserDetailsMain(obj)
-                localStorage.setItem('AgentSIPID', obj.External_num);
-                setAccountTypeMain(obj.role === 'Agent' || obj.role === 'Admin' || obj.role === 'Group admin' ? ADMIN : USER);
-                // setAccountTypeMain(obj.role === 'Agent' ? ADMIN : USER);
-                if (obj.role === 'Agent') {
-                  setRouteAccess(true)
-                }
+         
               }
 
             })
