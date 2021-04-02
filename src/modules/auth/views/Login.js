@@ -191,7 +191,7 @@ function addToQueue(agentId, queue, user_Details) {
         return Object.keys(object).find(key => object[key] === value);
       }
 
-      console.log('data', data)
+      console.log(' logiiiiidata', data)
       console.log(getKeyByValue(items, data[0]));
       if (getKeyByValue(items, data[0]) === 'server1') {
         APIENDPOINT = 'http://106.51.86.75:42001';
@@ -273,7 +273,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config1)
     .then((response) => {
-
+      console.log("remove queue 1")
     })
     .catch((error) => {
       console.log(error);
@@ -293,7 +293,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config2)
     .then((response) => {
-
+      console.log("remove queue 2")
     })
     .catch((error) => {
       console.log(error);
@@ -313,7 +313,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config3)
     .then((response) => {
-
+      console.log("remove queue 3")
     })
     .catch((error) => {
       console.log(error);
@@ -333,7 +333,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config4)
     .then((response) => {
-
+      console.log("remove queue 4")
     })
     .catch((error) => {
       console.log(error);
@@ -352,7 +352,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config5)
     .then((response) => {
-
+      console.log("remove queue 5")
     })
     .catch((error) => {
       console.log(error);
@@ -385,6 +385,8 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
         console.log("login api", res.data)
         const obj = res.data.userDetails;
         const { accessToken } = res.data;
+
+
 
         if (res.data.userDetails.AgentType === 'L1') {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
