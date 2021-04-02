@@ -26,7 +26,8 @@ import {
   SOCKETENDPOINT3,
   SOCKETENDPOINT4,
   SOCKETENDPOINT5,
-  AGENT_SERVICE_URL
+  AGENT_SERVICE_URL,
+  UPDATE_CURRENT_STATUS
 } from '../../dashboard-360/utils/endpoints'
 import Axios from 'axios';
 import { ADMIN, USER } from 'src/redux/constants';
@@ -157,6 +158,25 @@ var APIENDPOINT = SOCKETENDPOINT2;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// addToQueue end //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function updateAgentCallStatusV2(callStatusId, data) {
+  // console.log("updateData", updateData)
+  var axios = require('axios');
+  var config = {
+    method: 'put',
+    url: UPDATE_CURRENT_STATUS + callStatusId,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data
+  };
+  axios(config)
+    .then(function (response) {
+      console.log('update', JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -382,13 +402,20 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
         setLoggedInMain(false);
         setError(true);
       } if ('status' in myObj) {
+        const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
+        const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID, values);
+        console.log('getCurrentStatus',getCurrentStatus)
+
         console.log("login api", res.data)
         const obj = res.data.userDetails;
         const { accessToken } = res.data;
+        updateAgentCallStatusV2(getCurrentStatus.data[0]._id, {
+          "jwtToken":accessToken,
+          "loginStatus":"true"
+        })
+      
 
-
-
-        if (res.data.userDetails.AgentType === 'L1') {
+        if (res.data.userDetails.AgentType === 'L1' && getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           // var queue=res.data.userDetails.AgentQueueStatus
           if (res.data.userDetails.AgentQueueStatus === 'dynamic') {
