@@ -66,8 +66,8 @@ import data from '../customer/CustomerListView/data';
 import { da } from 'date-fns/locale';
 import { Link, Redirect } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
-import {setLoggedIn} from '../../../../redux/action'
-import {useDispatch} from 'react-redux'
+import { setLoggedIn } from '../../../../redux/action'
+import { useDispatch } from 'react-redux'
 // import CreateCaller from '../../../agentForm/views/dashboard/Createcaller'
 
 
@@ -653,16 +653,16 @@ const Dashboard = ({
     const interval = setInterval(async () => {
       const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
       const getCurrentStatus = await axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
-      console.log('getCurrentStatus',getCurrentStatus)
-      
-      if(localStorage.getItem('jwtToken')){
-      if(getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')){
-        getAgentCallStatus(agentSipID)
-      }else{
-        localStorage.clear()
-        dispatch(setLoggedIn(false))
+      //console.log('getCurrentStatus', getCurrentStatus)
+
+      if (localStorage.getItem('jwtToken')) {
+        if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
+          getAgentCallStatus(agentSipID)
+        } else {
+          localStorage.clear()
+          dispatch(setLoggedIn(false))
+        }
       }
-    }
 
     }, 3000);
 
@@ -670,7 +670,7 @@ const Dashboard = ({
 
 
   function getAgentCallStatus(agentSipID) {
-    console.log('calling the', agentSipID)
+    //console.log('calling the', agentSipID)
     var axios = require('axios');
     var config = {
       method: 'get',
@@ -682,7 +682,7 @@ const Dashboard = ({
       .then(function (response) {
 
         if (response.data) {
-          console.log('getAgentCallStatus....................', response.data);
+          //console.log('getAgentCallStatus....................', response.data);
           // updateAgentCallStatusV2(response.data[0]._id, { loginStatus: 'true' })
           setCurrentCallDetails(
             response.data[0]._id,
@@ -715,21 +715,21 @@ const Dashboard = ({
         }
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
       });
   }
 
   const onClick = event => {
-    console.log('mobile', mobile);
+    //console.log('mobile', mobile);
     if (mobile.length === 10) {
-      console.log(
-        'valid number',
-        ORIGINATE_CALL_WITH_SIP_ID +
-        'sipAgentID=SIP%2F' +
-        agent.AgentSipId +
-        '&NumbertobeCalled=5' +
-        mobile
-      );
+      // console.log(
+      //   'valid number',
+      //   ORIGINATE_CALL_WITH_SIP_ID +
+      //   'sipAgentID=SIP%2F' +
+      //   agent.AgentSipId +
+      //   '&NumbertobeCalled=5' +
+      //   mobile
+      // );
 
       const axios = require('axios');
 
@@ -746,13 +746,13 @@ const Dashboard = ({
 
       axios(config)
         .then(response => {
-          console.log(JSON.stringify(response.data));
+          //console.log(JSON.stringify(response.data));
         })
         .catch(error => {
-          console.log(error);
+          //console.log(error);
         });
     } else {
-      console.log('Invalide number');
+      //console.log('Invalide number');
     }
     // alert('clicked', mobile);
   };
@@ -803,7 +803,7 @@ const Dashboard = ({
       );
       setLoadingDetails(false);
     } catch (err) {
-      console.log(err.response);
+      //console.log(err.response);
     }
   }
 
@@ -837,22 +837,22 @@ const Dashboard = ({
   }
 
   function breakService(e) {
-    console.log('Break', localStorage.getItem('breakStatus'));
+    //console.log('Break', localStorage.getItem('breakStatus'));
     var BreakStatus = localStorage.getItem('breakStatus');
     if (BreakStatus === 'NA') {
-      console.log('Inside the NA');
+      //console.log('Inside the NA');
       removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
       addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
       localStorage.setItem('breakStatus', 'IN');
     }
     if (BreakStatus === 'IN') {
-      console.log('Inside the IN');
+      //console.log('Inside the IN');
       removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
       addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
       localStorage.setItem('breakStatus', 'OUT');
     }
     if (BreakStatus === 'OUT') {
-      console.log('Inside the OUT');
+      //console.log('Inside the OUT');
       localStorage.setItem('breakStatus', 'IN');
       removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
     }
@@ -897,10 +897,10 @@ const Dashboard = ({
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        //console.log(JSON.stringify(response.data));
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   }
 
@@ -921,7 +921,7 @@ const Dashboard = ({
       try {
         const response = await getAgentCallStatus(agent.AgentSipId);
       } catch (err) {
-        console.log('err', err);
+        //console.log('err', err);
       }
     }
     getInitialData();
@@ -1487,8 +1487,8 @@ const Dashboard = ({
   }, []);
 
   useEffect(() => {
-    console.log('data second useEffect', currentCall);
-    console.log('currentCall.callerNumber', currentCall.callerNumber);
+    // console.log('data second useEffect', currentCall);
+    // console.log('currentCall.callerNumber', currentCall.callerNumber);
 
 
     if (
@@ -1519,7 +1519,7 @@ const Dashboard = ({
   let history = useHistory();
 
   useEffect(() => {
-    console.log("currentCall", currentCall)
+    // console.log("currentCall", currentCall)
     if (reduxState.searchDistributor.length >= 4) {
       get(reduxState.searchDistributor);
     } else {
@@ -1731,8 +1731,8 @@ const Dashboard = ({
               <Grid item lg={12} md={12} xs={12}>
 
                 <Card>
-                {currentCall.callDispositionStatus === 'NotDisposed' ? <CardHeader title={`Disposition Details-Call Reference Id :: ${localStorage.getItem('callUniqueId')}`} />
-                  :<CardHeader title={`Disposition Details`} /> }
+                  {currentCall.callDispositionStatus === 'NotDisposed' ? <CardHeader title={`Disposition Details-Call Reference Id :: ${localStorage.getItem('callUniqueId')}`} />
+                    : <CardHeader title={`Disposition Details`} />}
                   <Divider />
                   {currentCall.callDispositionStatus === 'NotDisposed' &&
                     user.userType === 'Agent' ? (<CardContent>

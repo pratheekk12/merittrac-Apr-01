@@ -171,10 +171,10 @@ function updateAgentCallStatusV2(callStatusId, data) {
   };
   axios(config)
     .then(function (response) {
-      console.log('update', JSON.stringify(response.data));
+      // console.log('update', JSON.stringify(response.data));
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 }
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ function addToQueue(agentId, queue, user_Details) {
 
   axios(config1)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
 
       var data = response.data
 
@@ -211,8 +211,8 @@ function addToQueue(agentId, queue, user_Details) {
         return Object.keys(object).find(key => object[key] === value);
       }
 
-      console.log(' logiiiiidata', data)
-      console.log(getKeyByValue(items, data[0]));
+      // console.log(' logiiiiidata', data)
+      // console.log(getKeyByValue(items, data[0]));
       if (getKeyByValue(items, data[0]) === 'server1') {
         APIENDPOINT = 'http://106.51.86.75:42001';
       }
@@ -244,11 +244,11 @@ function addToQueue(agentId, queue, user_Details) {
       axios(config)
         .then((response) => { })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 
 
@@ -266,7 +266,7 @@ function addToQueue(agentId, queue, user_Details) {
 function removeFromQueue(agentId, queue, user_Details) {
   const axios = require('axios');
   var APIENDPOINT = '';
-  console.log('userDetails sdsdfgsdfgsdf', user_Details)
+  // console.log('userDetails sdsdfgsdfgsdf', user_Details)
   // if (user_Details.Server === 'server1') {
   //   APIENDPOINT = SOCKETENDPOINT1
   // }
@@ -279,7 +279,7 @@ function removeFromQueue(agentId, queue, user_Details) {
   // if (user_Details.Server === 'server4') {
   //   APIENDPOINT = SOCKETENDPOINT4
   // }
-  console.log('remove', agentId);
+  // console.log('remove', agentId);
   const config1 = {
     method: 'get',
     url:
@@ -293,10 +293,10 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config1)
     .then((response) => {
-      console.log("remove queue 1")
+      // console.log("remove queue 1")
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 
 
@@ -313,10 +313,10 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config2)
     .then((response) => {
-      console.log("remove queue 2")
+      // console.log("remove queue 2")
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 
 
@@ -333,10 +333,10 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config3)
     .then((response) => {
-      console.log("remove queue 3")
+      // console.log("remove queue 3")
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 
 
@@ -353,10 +353,10 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config4)
     .then((response) => {
-      console.log("remove queue 4")
+      //console.log("remove queue 4")
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
     });
 
 
@@ -372,10 +372,10 @@ function removeFromQueue(agentId, queue, user_Details) {
 
   axios(config5)
     .then((response) => {
-      console.log("remove queue 5")
+      //console.log("remove queue 5")
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -387,14 +387,14 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   const [error, setError] = useState(false);
   const user_Details = useSelector(state => state.userData)
 
-  console.log(user_Details)
+  //console.log(user_Details)
 
   async function authenticate(values) {
     setError('');
     try {
       const url = 'http://106.51.86.75:4000/auth/apiM/login'
       // const url='http://192.168.3.45:42009/user/login'
-      console.log("values", values)
+      //console.log("values", values)
 
       const res = await Axios.post(url, values);
       var myObj = res.data;
@@ -404,25 +404,25 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
       } if ('status' in myObj) {
         const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
         const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID, values);
-        console.log('getCurrentStatus',getCurrentStatus)
+        // console.log('getCurrentStatus', getCurrentStatus)
 
-        console.log("login api", res.data)
+        // console.log("login api", res.data)
         const obj = res.data.userDetails;
         const { accessToken } = res.data;
         updateAgentCallStatusV2(getCurrentStatus.data[0]._id, {
-          "jwtToken":accessToken,
-          "loginStatus":"true"
+          "jwtToken": accessToken,
+          "loginStatus": "true"
         })
-      
 
-        if (res.data.userDetails.AgentType === 'L1' ) {
+
+        if (res.data.userDetails.AgentType === 'L1') {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           // var queue=res.data.userDetails.AgentQueueStatus
-          if (res.data.userDetails.AgentQueueStatus === 'dynamic' &&  getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
+          if (res.data.userDetails.AgentQueueStatus === 'dynamic' && getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
             removeFromQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails);
             addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
           }
-          console.log('data resppppp', res.data)
+          // console.log('data resppppp', res.data)
           localStorage.setItem("jwtToken", accessToken);
           localStorage.setItem('AgentSIPID', res.data.userDetails.External_num);
           localStorage.setItem('role', res.data.userDetails.role);
@@ -488,7 +488,7 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
                   .required('Password is required')
               })}
               onSubmit={values => {
-                console.log('values', values);
+                // console.log('values', values);
                 localStorage.setItem('AgentType', values.AgentType);
                 localStorage.setItem('role', values.role);
                 localStorage.setItem('AgentSIPID', values.AgentSIPID);

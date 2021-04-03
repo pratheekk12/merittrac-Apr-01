@@ -15,7 +15,7 @@ import axios from 'axios';
 import {
   SOCKETENDPOINT1, SOCKETENDPOINT2, SOCKETENDPOINT3, SOCKETENDPOINT4, SOCKETENDPOINT5, UPDATE_CURRENT_STATUS
 } from './modules/dashboard-360/utils/endpoints'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 
 function Main({
@@ -35,12 +35,12 @@ function Main({
   const dispatch = useDispatch()
   const user_Details = useSelector(state => state.userData)
 
-    let history = useHistory()
+  let history = useHistory()
 
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
     var APIENDPOINT = '';
-    console.log('userDetails sdsdfgsdfgsdf', user_Details)
+    // console.log('userDetails sdsdfgsdfgsdf', user_Details)
     // if (user_Details.Server === 'server1') {
     //   APIENDPOINT = SOCKETENDPOINT1
     // }
@@ -53,7 +53,7 @@ function Main({
     // if (user_Details.Server === 'server4') {
     //   APIENDPOINT = SOCKETENDPOINT4
     // }
-    console.log('remove', agentId);
+    // console.log('remove', agentId);
     const config1 = {
       method: 'get',
       url:
@@ -70,7 +70,7 @@ function Main({
 
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
 
 
@@ -90,7 +90,7 @@ function Main({
 
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
 
 
@@ -110,7 +110,7 @@ function Main({
 
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
 
@@ -130,7 +130,7 @@ function Main({
 
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     const config5 = {
@@ -148,7 +148,7 @@ function Main({
 
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
 
@@ -165,10 +165,10 @@ function Main({
     };
     axios(config)
       .then(function (response) {
-        console.log('update', JSON.stringify(response.data));
+        //console.log('update', JSON.stringify(response.data));
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
       });
   }
 
@@ -179,7 +179,7 @@ function Main({
           setLoggedInMain(true);
           var test = await Axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(async response => {
-              console.log('respose', response)
+              //console.log('respose', response)
               var result = response.data.userDetails
               if (response.data.status != 200) {
                 try {
@@ -194,14 +194,14 @@ function Main({
 
                   dispatch(setLoggedIn(false))
                 } catch (err) {
-                  console.log(err);
+                  //console.log(err);
                 }
               } else {
                 const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
                 const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
-                console.log('getCurrentStatus',getCurrentStatus)
+                //console.log('getCurrentStatus',getCurrentStatus)
 
-                if(getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')){
+                if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
                   var obj = {
                     UserID: result.UserID,
                     AllowPublic: result.AllowPublic,
@@ -227,13 +227,13 @@ function Main({
                     setRouteAccess(true)
                   }
 
-                }else{
+                } else {
                   localStorage.clear();
                   setLoggedInMain(false);
                   // history.push('/auth/login')
-                  
+
                 }
-         
+
               }
 
             })
