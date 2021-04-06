@@ -66,8 +66,8 @@ import data from '../customer/CustomerListView/data';
 import { da } from 'date-fns/locale';
 import { Link, Redirect } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
-import {setLoggedIn} from '../../../../redux/action'
-import {useDispatch} from 'react-redux'
+import { setLoggedIn } from '../../../../redux/action'
+import { useDispatch } from 'react-redux'
 // import CreateCaller from '../../../agentForm/views/dashboard/Createcaller'
 
 
@@ -653,16 +653,28 @@ const Dashboard = ({
     const interval = setInterval(async () => {
       const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
       const getCurrentStatus = await axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
-      console.log('getCurrentStatus',getCurrentStatus)
-      
-      if(localStorage.getItem('jwtToken')){
-      if(getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')){
-        getAgentCallStatus(agentSipID)
-      }else{
-        localStorage.clear()
-        dispatch(setLoggedIn(false))
+      console.log('getCurrentStatus', getCurrentStatus)
+
+
+      if (localStorage.getItem('jwtToken')) {
+        if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
+          axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
+            .then((response) => {
+              if (response.status != 200) {
+                localStorage.clear()
+              } else {
+                getAgentCallStatus(agentSipID)
+              }
+            })
+            .catch((error) => {
+              console.log(error.message)
+            })
+
+        } else {
+          localStorage.clear()
+          dispatch(setLoggedIn(false))
+        }
       }
-    }
 
     }, 3000);
 
@@ -1731,8 +1743,8 @@ const Dashboard = ({
               <Grid item lg={12} md={12} xs={12}>
 
                 <Card>
-                {currentCall.callDispositionStatus === 'NotDisposed' ? <CardHeader title={`Disposition Details-Call Reference Id :: ${localStorage.getItem('callUniqueId')}`} />
-                  :<CardHeader title={`Disposition Details`} /> }
+                  {currentCall.callDispositionStatus === 'NotDisposed' ? <CardHeader title={`Disposition Details-Call Reference Id :: ${localStorage.getItem('callUniqueId')}`} />
+                    : <CardHeader title={`Disposition Details`} />}
                   <Divider />
                   {currentCall.callDispositionStatus === 'NotDisposed' &&
                     user.userType === 'Agent' ? (<CardContent>
