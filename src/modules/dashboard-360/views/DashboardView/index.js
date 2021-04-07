@@ -657,10 +657,23 @@ const Dashboard = ({
 
       if (localStorage.getItem('jwtToken')) {
         if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
-          getAgentCallStatus(agentSipID)
+          axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
+            .then((response) => {
+              if (response.status != 200) {
+                localStorage.clear()
+                window.location.reload()
+              } else {
+                getAgentCallStatus(agentSipID)
+              }
+            })
+            .catch((error) => {
+              console.log(error.message)
+            })
+
         } else {
           localStorage.clear()
           dispatch(setLoggedIn(false))
+          window.location.reload()
         }
       }
 

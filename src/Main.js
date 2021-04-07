@@ -230,6 +230,7 @@ function Main({
                 } else {
                   localStorage.clear();
                   setLoggedInMain(false);
+                  window.location.reload()
                   // history.push('/auth/login')
 
                 }

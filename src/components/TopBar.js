@@ -371,6 +371,7 @@ const TopBar = ({
       localStorage.clear();
 
       logout();
+      window.location.reload()
     } catch (err) {
       console.log(err);
     }
@@ -447,7 +448,7 @@ const TopBar = ({
           </Tooltip>
         </Hidden>
         <Hidden lgUp>
-          <IconButton color="inherit" onClick={onMobileNavOpen}>
+          <IconButton color="inherit" onClick={() => logoutUser()}>
             <MenuIcon />
           </IconButton>
         </Hidden>
