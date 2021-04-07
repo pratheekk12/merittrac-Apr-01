@@ -396,6 +396,17 @@ const Dashboard = ({
   /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const addToQueue1 = () => {
+    let agentsip = localStorage.getItem('AgentSIPID')
+    axios.post(`http://106.51.86.75:42004/crm/addToqueue/${agentsip}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }
+
   function addToQueue(agentId, queue, user_Details) {
     const axios = require('axios');
 
@@ -476,6 +487,33 @@ const Dashboard = ({
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const removeFromQueue1 = () => {
+    let agentsip = localStorage.getItem('AgentSIPID')
+    console.log(agentsip)
+    // axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+    //   .then((response) => {
+    //     console.log(response)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message)
+    //   })
+
+    var axios = require('axios');
+
+    var config = {
+      method: 'post',
+      url: `http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`,
+      headers: {}
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
@@ -597,7 +635,7 @@ const Dashboard = ({
 
 
   function updateAgentCallStatus(updateData) {
-    console.log("updateData", updateData)
+    // console.log("updateData", updateData)
     var axios = require('axios');
     var data = {
       agentCallStatus: updateData.callStatus,
@@ -658,15 +696,15 @@ const Dashboard = ({
       if (localStorage.getItem('jwtToken')) {
         if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
           axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
-          .then((response) => {
-            if (response.status != 200) {
-              localStorage.clear()
-              window.location.reload()
-            }else{
-              getAgentCallStatus(agentSipID)
-            }
-          });
-        
+            .then((response) => {
+              if (response.status != 200) {
+                localStorage.clear()
+                window.location.reload()
+              } else {
+                getAgentCallStatus(agentSipID)
+              }
+            });
+
         } else {
           localStorage.clear()
           dispatch(setLoggedIn(false))
@@ -851,20 +889,30 @@ const Dashboard = ({
     var BreakStatus = localStorage.getItem('breakStatus');
     if (BreakStatus === 'NA') {
       //console.log('Inside the NA');
-      removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
-      addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+      // removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+      removeFromQueue1()
+      console.log("remove got executed")
+      //addToQueue1()
+      // addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
       localStorage.setItem('breakStatus', 'IN');
     }
     if (BreakStatus === 'IN') {
       //console.log('Inside the IN');
-      removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
-      addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+      removeFromQueue1()
+      addToQueue1()
+      console.log("remove got executed")
+      // removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+      // addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+      // addToQueue1()
       localStorage.setItem('breakStatus', 'OUT');
     }
     if (BreakStatus === 'OUT') {
       //console.log('Inside the OUT');
       localStorage.setItem('breakStatus', 'IN');
-      removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+      removeFromQueue1()
+      //addToQueue1()
+      console.log("remove got executed")
+      // removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
     }
 
     updateAgentCallStatus({
@@ -1691,8 +1739,10 @@ const Dashboard = ({
                         agentSipID={agent.AgentSipId}
                         DLF={DLF}
                         setCurrentCallDetails={setCurrentCallDetails}
-                        addToQueue={addToQueue}
-                        removeFromQueue={removeFromQueue}
+                        // addToQueue={addToQueue}
+                        addToQueue1={addToQueue1}
+                        // removeFromQueue={removeFromQueue}
+                        removeFromQueue1={removeFromQueue1}
                         // getALF={getALF}
                         disForm={disForm}
                         setdisForm={form => {
@@ -1750,8 +1800,9 @@ const Dashboard = ({
                         agentSipID={agent.AgentSipId}
                         DLF={DLF}
                         setCurrentCallDetails={setCurrentCallDetails}
-                        addToQueue={addToQueue}
-                        removeFromQueue={removeFromQueue}
+                        addToQueue={addToQueue1}
+                        // removeFromQueue={removeFromQueue}
+                        removeFromQueue1={removeFromQueue1}
                         // getALF={getALF}
                         disForm={disForm}
                         setdisForm={form => {

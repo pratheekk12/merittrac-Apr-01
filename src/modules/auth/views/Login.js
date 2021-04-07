@@ -34,6 +34,7 @@ import { ADMIN, USER } from 'src/redux/constants';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 // import Typography from '@material-ui/core/Typography';
 import Logo from '../../dashboard-360/components/loginlogo'
+import axios from 'axios';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -263,6 +264,17 @@ function addToQueue(agentId, queue, user_Details) {
 /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const removeFromQueue1 = () => {
+  let agentsip = localStorage.getItem('AgentSIPID')
+  axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+}
+
 function removeFromQueue(agentId, queue, user_Details) {
   const axios = require('axios');
   var APIENDPOINT = '';
@@ -382,6 +394,28 @@ function removeFromQueue(agentId, queue, user_Details) {
 /// removeFromQueue end //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// const removeFromQueue1 = () => {
+//   let agentsip = localStorage.getItem('AgentSIPID')
+//   axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+//     .then((response) => {
+//       console.log(response)
+//     })
+//     .catch((error) => {
+//       console.log(error.message)
+//     })
+// }
+
+const addToQueue1 = () => {
+  let agentsip = localStorage.getItem('AgentSIPID')
+  axios.post(`http://106.51.86.75:42004/crm/addToqueue/${agentsip}`)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+}
+
 function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   const classes = useStyles();
   const [error, setError] = useState(false);
@@ -419,8 +453,10 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           // var queue=res.data.userDetails.AgentQueueStatus
           if (res.data.userDetails.AgentQueueStatus === 'dynamic' && getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
-            removeFromQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails);
-            addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
+            // removeFromQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails);
+            removeFromQueue1()
+            // addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
+            addToQueue1()
           }
           // console.log('data resppppp', res.data)
           localStorage.setItem("jwtToken", accessToken);
