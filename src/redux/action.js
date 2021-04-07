@@ -49,7 +49,7 @@ export const setUrlMatchFound = val => {
 };
 
 export const setAgentCurrentStatus = val => {
-  console.log("val", val)
+  // console.log("val", val)
   return {
     type: SET_AGENT_CURRENT_STATUS,
     payload: val
