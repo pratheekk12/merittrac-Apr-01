@@ -371,6 +371,7 @@ const TopBar = ({
       localStorage.clear();
 
       logout();
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -447,9 +448,9 @@ const TopBar = ({
           </Tooltip>
         </Hidden>
         <Hidden lgUp>
-          <IconButton color="inherit" onClick={onMobileNavOpen}>
-            <MenuIcon />
-          </IconButton>
+        <IconButton color="inherit" onClick={() => logoutUser()}>
+              <ExitToAppIcon />
+            </IconButton>
         </Hidden>
       </Toolbar>
     </AppBar>

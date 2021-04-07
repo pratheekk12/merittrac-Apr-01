@@ -192,7 +192,8 @@ function Main({
 
                   localStorage.clear();
 
-                  dispatch(setLoggedIn(false))
+                  dispatch(setLoggedIn(false));
+                  window.location.reload();
                 } catch (err) {
                   //console.log(err);
                 }
