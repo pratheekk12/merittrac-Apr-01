@@ -21,6 +21,7 @@ import * as yup from 'yup';
 // import config from '../../../ticketing/views/config.json';g
 import { Autocomplete } from '@material-ui/lab';
 import { useSelector } from 'react-redux'
+import axios from 'axios'
 // import { AlternateEmailTwoTone } from '@material-ui/icons';
 const useStyle = makeStyles(() => ({
   fieldContainer: {
@@ -79,6 +80,17 @@ export default function DispositionForm(props) {
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
   /// addToQueue start //////////////////////////////////////////////////////////////////////////////////////////
   /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const addToQueue1 = () => {
+    let agentsip = localStorage.getItem('AgentSIPID')
+    axios.post(`http://106.51.86.75:42004/crm/addToqueue/${agentsip}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }
 
   function addToQueue(agentId, queue, user_Details) {
     const axios = require('axios');
@@ -160,6 +172,18 @@ export default function DispositionForm(props) {
 
   /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const removeFromQueue1 = () => {
+    let agentsip = localStorage.getItem('AgentSIPID')
+    axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }
+
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
     var APIENDPOINT = '';
@@ -667,7 +691,8 @@ export default function DispositionForm(props) {
       // }
 
       if (user_Details.AgentQueueStatus === 'dynamic') {
-        addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+        // addToQueue('Local/5' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+        addToQueue1()
       }
     }
     if (localStorage.getItem('Agenttype') === 'L2') {
@@ -676,7 +701,8 @@ export default function DispositionForm(props) {
       // }
 
       if (user_Details.AgentQueueStatus === 'dynamic') {
-        addToQueue('Local/3' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+        // addToQueue('Local/3' + localStorage.getItem('AgentSIPID') + '@from-queue\n', 7001, user_Details)
+        addToQueue1()
       }
     }
     // // props.removeFromQueue(props.AgentSipId, '7001');

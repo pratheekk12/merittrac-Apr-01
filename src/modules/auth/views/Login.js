@@ -405,9 +405,9 @@ function removeFromQueue(agentId, queue, user_Details) {
 //     })
 // }
 
-const addToQueue1 = () => {
-  let agentsip = localStorage.getItem('AgentSIPID')
-  axios.post(`http://106.51.86.75:42004/crm/addToqueue/${agentsip}`)
+const addToQueue1 = (sipID) => {
+  // let agentsip = localStorage.getItem('AgentSIPID')
+  axios.post(`http://106.51.86.75:42004/crm/addToqueue/${sipID}`)
     .then((response) => {
       console.log(response)
     })
@@ -451,12 +451,13 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
 
         if (res.data.userDetails.AgentType === 'L1') {
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
+          //addToQueue1()
           // var queue=res.data.userDetails.AgentQueueStatus
           if (res.data.userDetails.AgentQueueStatus === 'dynamic' && getCurrentStatus.data[0].agentCallDispositionStatus === 'Disposed') {
             // removeFromQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails);
             removeFromQueue1()
             // addToQueue('Local/5' + res.data.userDetails.External_num + '@from-queue\n', 7001, res.data.userDetails)
-            addToQueue1()
+            addToQueue1(res.data.userDetails.External_num)
           }
           // console.log('data resppppp', res.data)
           localStorage.setItem("jwtToken", accessToken);
