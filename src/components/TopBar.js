@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 // import config from '../modules/ticketing/views/config.json';
 import { Link, Link as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
+import axios from 'axios'
 import PropTypes from 'prop-types';
 import {
   AppBar,
@@ -124,6 +125,16 @@ function addToQueue(agentId, queue) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// removeFromQueue start //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const removeFromQueue1 = () => {
+  let agentsip = localStorage.getItem('AgentSIPID')
+  axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+}
 
 function removeFromQueue(agentId, queue, user_Details) {
   const axios = require('axios');
@@ -347,7 +358,8 @@ const TopBar = ({
   async function logoutUser() {
 
     try {
-      removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+      // removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+      removeFromQueue1()
       // if (localStorage.getItem('Agenttype') === 'L1') {
       //   // removeFromQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 7001)
       //   if (user_Details.AgentQueueStatus === 'dynamic') {
@@ -448,9 +460,9 @@ const TopBar = ({
           </Tooltip>
         </Hidden>
         <Hidden lgUp>
-        <IconButton color="inherit" onClick={() => logoutUser()}>
-              <ExitToAppIcon />
-            </IconButton>
+          <IconButton color="inherit" onClick={() => logoutUser()}>
+            <ExitToAppIcon />
+          </IconButton>
         </Hidden>
       </Toolbar>
     </AppBar>
