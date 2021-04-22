@@ -426,30 +426,41 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   async function authenticate(values) {
     setError('');
     try {
-      const url = 'http://106.51.86.75:4000/auth/apiM/login'
+      const url = 'http://localhost:4000/auth/apiM/login'
       // const url='http://192.168.3.45:42009/user/login'
       //console.log("values", values)
 
       const res = await Axios.post(url, values);
       var myObj = res.data;
+      const { accessToken } = res.data;
+      const obj = res.data.userDetails;
       if ('statusCode' in myObj) {
         setLoggedInMain(false);
         setError(true);
-      } if ('status' in myObj) {
-        const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
-        const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID, values);
-        // console.log('getCurrentStatus', getCurrentStatus)
-
-        // console.log("login api", res.data)
-        const obj = res.data.userDetails;
-        const { accessToken } = res.data;
-        updateAgentCallStatusV2(getCurrentStatus.data[0]._id, {
-          "jwtToken": accessToken,
-          "loginStatus": "true"
-        })
-
-
+      } if ('status' in myObj) { 
+        if (res.data.userDetails.role === 'Admin' || res.data.userDetails.role === 'Group Admin') {
+          localStorage.setItem("jwtToken", accessToken);
+          localStorage.setItem('AgentSIPID', res.data.userDetails.External_num);
+          localStorage.setItem('role', res.data.userDetails.role);
+          localStorage.setItem('Agenttype', res.data.userDetails.AgentType);
+          localStorage.setItem('AgentType', 'Inbound')
+          localStorage.setItem('Username', res.data.userDetails.EmployeeName);
+          setUserDetailsMain(obj);
+          setAccountTypeMain(obj.role === 'Agent' ? ADMIN : USER);
+          setLoggedInMain(true);
+        }
         if (res.data.userDetails.AgentType === 'L1') {
+          const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://localhost:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
+          const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID, values);
+          // console.log('getCurrentStatus', getCurrentStatus)
+
+          // console.log("login api", res.data)
+         
+          
+          updateAgentCallStatusV2(getCurrentStatus.data[0]._id, {
+            "jwtToken": accessToken,
+            "loginStatus": "true"
+          })
           // addToQueue('Local/5'+localStorage.getItem('AgentSIPID')+'@from-internal', 5000)
           //addToQueue1()
           // var queue=res.data.userDetails.AgentQueueStatus
@@ -465,6 +476,7 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
           localStorage.setItem('role', res.data.userDetails.role);
           localStorage.setItem('Agenttype', res.data.userDetails.AgentType);
           localStorage.setItem('AgentType', 'Inbound')
+          localStorage.setItem('Username', res.data.userDetails.EmployeeName);
           setUserDetailsMain(obj);
           setAccountTypeMain(obj.role === 'Agent' ? ADMIN : USER);
           setLoggedInMain(true);
