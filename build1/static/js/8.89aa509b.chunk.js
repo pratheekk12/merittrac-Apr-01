@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-material-dashboard"]=this["webpackJsonpreact-material-dashboard"]||[]).push([[8],{831:function(a,t,e){"use strict";e.r(t),e.d(t,"default",(function(){return c}));var r=e(0),n=e.n(r),u=e(172);function c(a){var t=a.routes;return n.a.createElement(n.a.Fragment,null,n.a.createElement(u.a,{routes:t,redirectPath:"/auth/login"}))}}}]);
+//# sourceMappingURL=8.89aa509b.chunk.js.map
