@@ -37,6 +37,17 @@ function Main({
 
   let history = useHistory()
 
+  const removeFromQueue1 = () => {
+    let agentsip = localStorage.getItem('AgentSIPID')
+    axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }
+
   function removeFromQueue(agentId, queue, user_Details) {
     const axios = require('axios');
     var APIENDPOINT = '';
@@ -183,7 +194,8 @@ function Main({
               var result = response.data.userDetails
               if (response.data.status != 200) {
                 try {
-                  removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+                  // removeFromQueue(`Local/5${localStorage.getItem('AgentSIPID')}@from-queue`, 7001, user_Details);
+                  removeFromQueue1()
                   updateAgentCallStatusV2(localStorage.getItem('callStatusId'), { loginStatus: 'false' })
                   const userData = localStorage.jwtToken
 
