@@ -695,23 +695,9 @@ const Dashboard = ({
 
       if (localStorage.getItem('jwtToken')) {
         if (getCurrentStatus.data[0].jwtToken === localStorage.getItem('jwtToken')) {
-<<<<<<< HEAD
-          // axios.post('http://192.168.3.17:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
-          // .then((response) => {
-          //   if (response.status != 200) {
-          //     localStorage.clear()
-          //     window.location.reload()
-          //   }else{
-          //     getAgentCallStatus(agentSipID)
-          //   }
-          // });
-
-        } else {
-=======
           getAgentCallStatus(agentSipID)
         }
         else {
->>>>>>> 354005943e5b43f57b8b8fc45d8ace79b8d11c68
           localStorage.clear()
           dispatch(setLoggedIn(false))
           window.location.reload()
