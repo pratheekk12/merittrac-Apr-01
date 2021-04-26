@@ -122,7 +122,7 @@ export default function DispositionForm({ ...props }) {
       "AgentType": formRef.current.values.AgentType.value,
       "group": formRef.current.values.Group.group_name,
     }
-    const url = 'http://106.51.86.75:4000/admin/agent/addAgent'
+    const url = 'http://192.168.3.17:4000/admin/agent/addAgent'
 
     Axios.post(url, { data }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {
@@ -196,7 +196,7 @@ export default function DispositionForm({ ...props }) {
   useEffect(() => {
     console.log('formRef', formRef.current.values);
     console.log("initialValue", initialValue)
-    const url = 'http://106.51.86.75:4000/admin/group/getGroup'
+    const url = 'http://192.168.3.17:4000/admin/group/getGroup'
 
     Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {

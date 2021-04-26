@@ -187,7 +187,7 @@ function addToQueue(agentId, queue, user_Details) {
 
   var config1 = {
     method: 'get',
-    url: 'http://106.51.86.75:42004/crm/serveragentcounts',
+    url: 'http://192.168.3.17:42004/crm/serveragentcounts',
     headers: {}
   };
 
@@ -215,19 +215,19 @@ function addToQueue(agentId, queue, user_Details) {
       // console.log(' logiiiiidata', data)
       // console.log(getKeyByValue(items, data[0]));
       if (getKeyByValue(items, data[0]) === 'server1') {
-        APIENDPOINT = 'http://106.51.86.75:42001';
+        APIENDPOINT = 'http://192.168.3.17:42001';
       }
       if (getKeyByValue(items, data[0]) === 'server2') {
-        APIENDPOINT = 'http://106.51.86.75:42002';
+        APIENDPOINT = 'http://192.168.3.17:42002';
       }
       if (getKeyByValue(items, data[0]) === 'server3') {
-        APIENDPOINT = 'http://106.51.86.75:42003';
+        APIENDPOINT = 'http://192.168.3.17:42003';
       }
       if (getKeyByValue(items, data[0]) === 'server4') {
-        APIENDPOINT = 'http://106.51.86.75:42005';
+        APIENDPOINT = 'http://192.168.3.17:42005';
       }
       if (getKeyByValue(items, data[0]) === 'server5') {
-        APIENDPOINT = 'http://106.51.86.75:42009';
+        APIENDPOINT = 'http://192.168.3.17:42009';
         queue = 7003
       }
 
@@ -266,7 +266,7 @@ function addToQueue(agentId, queue, user_Details) {
 
 const removeFromQueue1 = () => {
   let agentsip = localStorage.getItem('AgentSIPID')
-  axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+  axios.post(`http://192.168.3.17:42004/crm/removeToqueue/${agentsip}`)
     .then((response) => {
       console.log(response)
     })
@@ -396,7 +396,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
 // const removeFromQueue1 = () => {
 //   let agentsip = localStorage.getItem('AgentSIPID')
-//   axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+//   axios.post(`http://192.168.3.17:42004/crm/removeToqueue/${agentsip}`)
 //     .then((response) => {
 //       console.log(response)
 //     })
@@ -407,7 +407,7 @@ function removeFromQueue(agentId, queue, user_Details) {
 
 const addToQueue1 = (sipID) => {
   // let agentsip = localStorage.getItem('AgentSIPID')
-  axios.post(`http://106.51.86.75:42004/crm/addToqueue/${sipID}`)
+  axios.post(`http://192.168.3.17:42004/crm/addToqueue/${sipID}`)
     .then((response) => {
       console.log(response)
     })
@@ -426,7 +426,7 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
   async function authenticate(values) {
     setError('');
     try {
-      const url = 'http://106.51.86.75:4000/auth/apiM/login'
+      const url = 'http://192.168.3.17:4000/auth/apiM/login'
       // const url='http://192.168.3.45:42009/user/login'
       //console.log("values", values)
 
@@ -436,7 +436,7 @@ function Login({ setLoggedInMain, setAccountTypeMain, setUserDetailsMain }) {
         setLoggedInMain(false);
         setError(true);
       } if ('status' in myObj) {
-        const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
+        const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://192.168.3.17:42004/crm/currentstatuses/agentSipID?agentSipID=${res.data.userDetails.External_num}`;
         const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID, values);
         // console.log('getCurrentStatus', getCurrentStatus)
 

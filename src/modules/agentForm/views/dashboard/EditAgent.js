@@ -89,7 +89,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
     const handleSubmit = (e) => {
 
         console.log("formData", formData)
-        const url = 'http://106.51.86.75:4000/admin/agent/updateAgent'
+        const url = 'http://192.168.3.17:4000/admin/agent/updateAgent'
 
         Axios.post(url, { formData }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(function (response) {
@@ -123,7 +123,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
 
     }
     useEffect(() => {
-        const url = 'http://106.51.86.75:4000/admin/group/getGroup'
+        const url = 'http://192.168.3.17:4000/admin/group/getGroup'
 
         Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(function (response) {

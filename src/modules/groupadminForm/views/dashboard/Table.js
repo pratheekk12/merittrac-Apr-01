@@ -29,7 +29,7 @@ export default function DataGridDemo() {
   const [editData, setEditData] = useState([]);
 
   function TableData() {
-    const url = 'http://106.51.86.75:4000/admin/groupdadmin/view'
+    const url = 'http://192.168.3.17:4000/admin/groupdadmin/view'
 
     Axios.post(url)
       .then(function (response) {
@@ -56,7 +56,7 @@ export default function DataGridDemo() {
         onSelectionChange={(newSelection) => {
 
 
-          const url = 'http://106.51.86.75:4000/admin/agent/getAgent'
+          const url = 'http://192.168.3.17:4000/admin/agent/getAgent'
 
 
           Axios.post(url, newSelection)
