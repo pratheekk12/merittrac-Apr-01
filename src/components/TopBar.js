@@ -127,7 +127,7 @@ function addToQueue(agentId, queue) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const removeFromQueue1 = () => {
   let agentsip = localStorage.getItem('AgentSIPID')
-  axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+  axios.post(`http://192.168.3.17:42004/crm/removeToqueue/${agentsip}`)
     .then((response) => {
       console.log(response)
     })
@@ -377,7 +377,7 @@ const TopBar = ({
       // .delete(BackendURL.AuthenticationURL + '/auth/api/logout', { headers: { "authorization": userData } })
       const userData = localStorage.jwtToken
 
-      const url = 'http://localhost:4000/auth/apiM/logout'
+      const url = 'http://192.168.3.17:4000/auth/apiM/logout'
       await Axios.delete(url, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } });
 
       localStorage.clear();

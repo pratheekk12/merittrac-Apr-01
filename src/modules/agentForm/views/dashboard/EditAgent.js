@@ -30,7 +30,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
 
     const [formData, setFormData] = useState(Data);
     // const agentServiceURL = `${Agent_service_url}/`;
-    const path5 = "http://localhost"
+    const path5 = "http://192.168.3.17"
     const handleChange = (e) => {
         console.log("target", e.target)
         setFormData({

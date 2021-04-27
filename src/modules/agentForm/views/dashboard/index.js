@@ -79,7 +79,7 @@ const AgentDashboard = () => {
 
   }, [])
   function TableData() {
-    const url = 'http://106.51.86.75:4000/admin/agent/viewAgent'
+    const url = 'http://192.168.3.17:4000/admin/agent/viewAgent'
 
     Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {

@@ -83,7 +83,7 @@ export default function DispositionForm(props) {
 
   const addToQueue1 = () => {
     let agentsip = localStorage.getItem('AgentSIPID')
-    axios.post(`http://106.51.86.75:42004/crm/addToqueue/${agentsip}`)
+    axios.post(`http://192.168.3.17:42004/crm/addToqueue/${agentsip}`)
       .then((response) => {
         console.log(response)
       })
@@ -97,7 +97,7 @@ export default function DispositionForm(props) {
 
     var config1 = {
       method: 'get',
-      url: 'http://106.51.86.75:42004/crm/serveragentcounts',
+      url: 'http://192.168.3.17:42004/crm/serveragentcounts',
       headers: {}
     };
 
@@ -125,19 +125,19 @@ export default function DispositionForm(props) {
         console.log('data', data)
         console.log(getKeyByValue(items, data[0]));
         if (getKeyByValue(items, data[0]) === 'server1') {
-          APIENDPOINT = 'http://106.51.86.75:42001';
+          APIENDPOINT = 'http://192.168.3.17:42001';
         }
         if (getKeyByValue(items, data[0]) === 'server2') {
-          APIENDPOINT = 'http://106.51.86.75:42002';
+          APIENDPOINT = 'http://192.168.3.17:42002';
         }
         if (getKeyByValue(items, data[0]) === 'server3') {
-          APIENDPOINT = 'http://106.51.86.75:42003';
+          APIENDPOINT = 'http://192.168.3.17:42003';
         }
         if (getKeyByValue(items, data[0]) === 'server4') {
-          APIENDPOINT = 'http://106.51.86.75:42005';
+          APIENDPOINT = 'http://192.168.3.17:42005';
         }
         if (getKeyByValue(items, data[0]) === 'server5') {
-          APIENDPOINT = 'http://106.51.86.75:42009';
+          APIENDPOINT = 'http://192.168.3.17:42009';
           queue = 7003
         }
         const config = {
@@ -175,7 +175,7 @@ export default function DispositionForm(props) {
 
   const removeFromQueue1 = () => {
     let agentsip = localStorage.getItem('AgentSIPID')
-    axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+    axios.post(`http://192.168.3.17:42004/crm/removeToqueue/${agentsip}`)
       .then((response) => {
         console.log(response)
       })

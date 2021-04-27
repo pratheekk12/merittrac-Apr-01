@@ -48,7 +48,7 @@ const columns = [
 
 
 export default function DataGridDemo() {
-  const path3 = "http://localhost"
+  const path3 = "http://192.168.3.17"
   const [agents, setAgents] = useState([]);
   const [editform, setEditform] = useState(false);
   const [data, setData] = useState(false);

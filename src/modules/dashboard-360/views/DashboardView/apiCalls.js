@@ -6,7 +6,7 @@ import {
   GET_DEALER_ORDERS,
   GET_DEALER_PROFILE
 } from 'src/modules/dashboard-360/utils/endpoints';
-const u = 'http://106.51.86.75:3000';
+const u = 'http://192.168.3.17:3000';
 export const getDealerDetails = distributorID => {
   // console.log("distributorID",distributorID)
   Axios.get(u + GET_DEALER_PROFILE, {

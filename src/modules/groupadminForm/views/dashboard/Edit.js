@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DistSelect({ InputLabelProps = {}, ...props }) {
-    const path2 = "http://localhost"
+    const path2 = "http://192.168.3.17"
     const classes = useStyles();
     const [Groups, setGroups] = useState([]);
       console.log("EditData",props.EditData)

@@ -39,7 +39,7 @@ function Main({
 
   const removeFromQueue1 = () => {
     let agentsip = localStorage.getItem('AgentSIPID')
-    axios.post(`http://106.51.86.75:42004/crm/removeToqueue/${agentsip}`)
+    axios.post(`http://192.168.3.17:42004/crm/removeToqueue/${agentsip}`)
       .then((response) => {
         console.log(response)
       })
@@ -188,7 +188,7 @@ function Main({
       try {
         if (localStorage.getItem('jwtToken')) {
           setLoggedInMain(true);
-          var test = await Axios.post('http://106.51.86.75:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
+          var test = await Axios.post('http://192.168.3.17:4000/auth/apiM/verifyClient', {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(async response => {
               //console.log('respose', response)
               var result = response.data.userDetails
@@ -199,7 +199,7 @@ function Main({
                   updateAgentCallStatusV2(localStorage.getItem('callStatusId'), { loginStatus: 'false' })
                   const userData = localStorage.jwtToken
 
-                  const url = 'http://106.51.86.75:4000/auth/apiM/logout'
+                  const url = 'http://192.168.3.17:4000/auth/apiM/logout'
                   axios.delete(url, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } });
 
                   localStorage.clear();
@@ -210,7 +210,7 @@ function Main({
                   //console.log(err);
                 }
               } else {
-                const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://106.51.86.75:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
+                const GET_CURRENT_STATUS_BY_AGENT_SIP_ID = `http://192.168.3.17:42004/crm/currentstatuses/agentSipID?agentSipID=${localStorage.getItem('AgentSIPID')}`;
                 const getCurrentStatus = await Axios.get(GET_CURRENT_STATUS_BY_AGENT_SIP_ID);
                 //console.log('getCurrentStatus',getCurrentStatus)
 
