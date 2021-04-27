@@ -1,40 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid, GridToolbar } from '@material-ui/data-grid';
 import Axios from 'axios';
 import Editgroup from './Edit'
 const columns = [
-
+ 
   // { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'EmployeeName', headerName: 'Group Admin name', width: 200 },
-  { field: 'External_num', headerName: 'Contact Number', width: 200 },
+  { field: 'Group_Admin_name', headerName: 'Group Admin name', width: 200 },
+  { field: 'Group_Admin_ContactNumber', headerName: 'Contact Number', width: 200 },
   {
-    field: 'EmailID',
+    field: 'Group_Admin_Email_id',
     headerName: 'Email',
     width: 200,
   },
 
   {
-    field: 'GroupName',
+    field: 'Group_name',
     headerName: 'Groups',
     width: 160,
 
   },
+  {
+    field: 'Status',
+    headerName: 'Status',
+    width: 160,
+
+  },
+  
 ];
 
 
 
 export default function DataGridDemo() {
-  const [agents, setAgents] = useState([]);
+  const path1 = "http://192.168.3.17"
+  const [groups, setGroups] = useState([]);
   const [editform, setEditform] = useState(false);
   const [editData, setEditData] = useState([]);
+  const groupFilterModel = {
+    items: [{ columnField: '', operatorValue: '', value: '' }],
+  };
 
   function TableData() {
-    const url = 'http://192.168.3.17:4000/admin/groupdadmin/view'
+    const url = path1+':4000/admin/group/viewGroup'
 
     Axios.post(url)
       .then(function (response) {
-        // console.log(JSON.stringify(response.data.data));
-        setAgents(response.data.data)
+        console.log(JSON.stringify(response.data.data));
+        setGroups(response.data.data)
 
       })
       .catch(function (error) {
@@ -49,14 +60,17 @@ export default function DataGridDemo() {
   }, [])
   return (
     <div style={{ height: 400, width: '100%' }}>
-      {agents.length > 0 ? <DataGrid rows={agents.map(calls => ({
+      {groups.length > 0 ? <DataGrid rows={groups.map(calls => ({
         ...calls,
-        id: calls.UserID
-      }))} columns={columns} pageSize={5} checkboxSelection
-        onSelectionChange={(newSelection) => {
+        id: calls.G_ID
+      }))} columns={columns} filterModel={groupFilterModel} components={{
+        Toolbar: GridToolbar,
+      }}
+      pageSize={5} checkboxSelection
+      onSelectionModelChange={(newSelection) => {
 
 
-          const url = 'http://192.168.3.17:4000/admin/agent/getAgent'
+          const url = path1+':4000/admin/group/editGroup'
 
 
           Axios.post(url, newSelection)
@@ -70,9 +84,9 @@ export default function DataGridDemo() {
             })
           // setSelection(newSelection.rowIds);
         }} /> : <></>}
-      {/* {editData.length > 0 ? <Editgroup
+      {editData.length > 0 ? <Editgroup
         EditData={editData}
-        TableData={TableData} /> : <></>} */}
+        TableData={TableData} /> : <></>}
     </div>
   );
 }

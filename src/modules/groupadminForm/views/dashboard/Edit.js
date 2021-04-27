@@ -19,18 +19,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DistSelect({ InputLabelProps = {}, ...props }) {
+    const path2 = "http://192.168.3.17"
     const classes = useStyles();
     const [Groups, setGroups] = useState([]);
-    //   console.log("EditData",props.EditData)
-    // const [formData, setFormData] = useState({
-    //         AgentType: "",
-    //         EmployeeName: "",
-    //         External_num: "",
-    //         Location: "",
-    //         UserID: "",
-    //         UserName: "",
-    //         EmailID:""
-    //     });
+      console.log("EditData",props.EditData)
+
     const [showModal, setShowModal] = useState(true);
 
     const Data = props.EditData[0]
@@ -39,7 +32,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
 
 
     const handleChange = (e) => {
-        console.log("target", e.target)
+        console.log("target", e.target.value)
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -64,7 +57,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
         var config = {
 
             method: 'post',
-            url: 'https://localhost:42004/crm/currentstatuses',
+            url: path2+':42004/crm/currentstatuses',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -82,37 +75,22 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
     const handleSubmit = (e) => {
 
         console.log("formData", formData)
-        const url = 'http://192.168.3.17:4000/admin/agent/updateAgent'
+        const url = path2+':4000/admin/group/updateGroup'
 
-        Axios.post(url, formData)
+        Axios.post(url, {formData},{ headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(function (response) {
                 console.log(response);
                 if (response.data.status === 200) {
                     alert("Updated Agent Successfully")
                     setShowModal(false)
                     props.TableData()
-                    updateAgentCallStatus(formData.External_num)
+                    // updateAgentCallStatus(formData.External_num)
                 }
             })
 
     }
     useEffect(() => {
-        const url = 'http://192.168.3.17:4000/admin/group/getGroup'
-
-        Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
-            .then(function (response) {
-                console.log(response);
-                if (response.data.status === 200) {
-                    // roup=response.data.data
-                    setGroups(response.data.data)
-                }
-                else {
-                    alert(response.data.message)
-
-
-                }
-            })
-
+       
 
     }, [])
     return (
@@ -123,136 +101,84 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
                     onClose={() => setShowModal(false)}
                     classes={{ paper: classes.dialog }}
                 >
-                    <DialogTitle>Edit Agent Details</DialogTitle>
+                    <DialogTitle>Edit Group Details</DialogTitle>
                     <Divider light />
                     <DialogContent>
                         <Typography variant="h6">
+ 
                             <TextField
                                 fullWidth
-                                label="Agent Name"
-                                name="EmployeeName"
+                                label="Admin Name"
+                                name="Group_Admin_name"
                                 onChange={handleChange}
                                 required
 
                                 SelectProps={{ native: true }}
-                                value={formData.EmployeeName}
+                                value={formData.Group_Admin_name}
                                 variant="outlined"
                             />
                             <br />
                             <br />
                             <TextField
                                 fullWidth
-                                label="Agent Email"
-                                name="EmailID"
+                                label="Admin Email"
+                                name="Group_Admin_Email_id"
                                 onChange={handleChange}
                                 required
 
                                 SelectProps={{ native: true }}
-                                value={formData.EmailID}
+                                value={formData.Group_Admin_Email_id}
                                 variant="outlined"
                             />
                             <br />
                             <br />
                             <TextField
                                 fullWidth
-                                label="Agent Contact Number"
-                                name="External_num"
+                                label="Admin Contact Number"
+                                name="Group_Admin_ContactNumber"
                                 onChange={handleChange}
                                 required
 
                                 SelectProps={{ native: true }}
-                                value={formData.External_num}
+                                value={formData.Group_Admin_ContactNumber}
                                 variant="outlined"
                             />
                             <br />
                             <br />
                             <TextField
                                 fullWidth
-                                label="Location"
-                                name="Location"
+                                label="Group name"
+                                name="Group_name"
                                 onChange={handleChange}
                                 required
 
                                 SelectProps={{ native: true }}
-                                value={formData.Location}
+                                value={formData.Group_name}
                                 variant="outlined"
                             />
+                          
                             <br />
                             <br />
                             <TextField
                                 fullWidth
-                                label="Select Group"
-                                name="GroupName"
+                                label="Select Status"
+                                name="Status"
                                 onChange={handleChange}
                                 required
                                 select
                                 SelectProps={{ native: true }}
-                                value={formData.GroupName}
-                                variant="outlined"
-                                InputLabelProps={{ ...InputLabelProps, shrink: true }}
-                                {...props}
-                            >
-                                {Groups.map((option) => (
-                                    <option
-                                        key={option.group_id}
-                                        value={option.group_name}
-                                    >
-                                        {option.group_name}
-                                    </option>
-                                ))}
-
-
-                            </TextField>
-                            <br />
-                            <br />
-                            <TextField
-                                fullWidth
-                                label="Select Agent Type"
-                                name="AgentType"
-                                onChange={handleChange}
-                                required
-                                select
-                                SelectProps={{ native: true }}
-                                value={formData.AgentType}
+                                value={formData.Status}
                                 variant="outlined"
                             >
                                 <option
-                                    key="L1"
-                                    value="L1"
-                                >
-                                    L1
-                                    </option>
-                                <option
-                                    key="L2"
-                                    value="L2"
-                                >
-                                    L2
-                                    </option>
-
-                            </TextField>
-
-                            <br />
-                            <br />
-                            <TextField
-                                fullWidth
-                                label="Select Agent Type"
-                                name="Enabled"
-                                onChange={handleChange}
-                                required
-                                select
-                                SelectProps={{ native: true }}
-                                value={formData.Enabled}
-                                variant="outlined"
-                            >
-                                <option
-                                    key="1"
-                                    value="True"
+                                    key="enable"
+                                    value="enable"
                                 >
                                     Enable
                                     </option>
                                 <option
-                                    key="0"
-                                    value="False"
+                                    key="disable"
+                                    value="disable"
                                 >
                                     Disable
                                     </option>

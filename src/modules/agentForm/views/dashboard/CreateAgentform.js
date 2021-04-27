@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import {
   UPDATE_CALL_STATUS,
   UPDATE_CURRENT_STATUS,
-  AGENT_SERVICE_URL
+  Agent_service_url
 } from 'src/modules/dashboard-360/utils/endpoints';
 import {
   Button,
@@ -28,13 +28,17 @@ const useStyle = makeStyles(() => ({
 }));
 export default function DispositionForm({ ...props }) {
   const config = "http://192.168.3.45:8083/"
-
+  const path4 = "http://192.168.3.17"
   const [initialValue, setInitialValue] = useState({
 
     AgentName: '',
     AgentEmail: '',
     Agentcontact: '',
-    enable: false,
+    location: {
+      value: "",
+      label: ""
+    },
+    enable: true,
     AgentType: {
       value: "",
       label: ""
@@ -42,12 +46,16 @@ export default function DispositionForm({ ...props }) {
     Group: {
       value: "",
       label: ""
+    },
+    agentqueue: {
+      value: "",
+      label: ""
     }
   });
   const [Groups, setGroups] = useState([]);
   const classes = useStyle();
   const formRef = useRef({});
-  const agentServiceURL = `${AGENT_SERVICE_URL}/`;
+  // const agentServiceURL = `${Agent_service_url}/`;
   const AgentType = [
     {
       id: '1', value: 'L1',
@@ -57,72 +65,42 @@ export default function DispositionForm({ ...props }) {
     },
 
   ]
-  // const Groups = [
-  //   {
-  //     id: '1', value: 'Grassroots DD',
-  //   },
-  //   {
-  //     id: '2', value: 'Grassroots OMR',
-  //   },
-  //   {
-  //     id: '3', value: 'Grassroots Site1',
-  //   },
+  const location = [
+    {
+      id: '1', value: 'Chennai',
+    },
+    {
+      id: '2', value: 'OMR',
+    },
 
-  // ]
+  ]
+  const agentqueue = [
+    {
+      id: '1', value: 'dynamic',
+    },
+    {
+      id: '2', value: 'static',
+    },
+
+  ]
 
 
-  function updateAgentCallStatus(contactNumber) {
-    console.log("contactNumber", contactNumber)
-    var axios = require('axios');
 
-    var data = {
-      agentCallDispositionStatus: "NotDisposed",
-      agentCallType: "Inbound",
-      agentCallUniqueId: "1610712538.46886",
-      agentCallEvent: "Bridge",
-      agentCallStatus: "disconnected",
-      agentID: "9998",
-      agentSipID: "9998",
-      contactNumber: contactNumber,
-      breakStatus: "OUT",
 
-    };
-    var config = {
-
-      method: 'post',
-      url: `${AGENT_SERVICE_URL}/crm/currentstatuses`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: data
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log("update", JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-  async function pushAgentCurrentStatusData(data) {
-    const url = agentServiceURL + 'crm/currentstatuses';
-    const result = await fetch(url, { method: 'post', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
-    console.log("result", result)
-    return await result.json();
-  }
   function handleSubmit(e) {
 
     console.log('formRef', formRef.current.values);
+
     const data = {
       "AgentName": formRef.current.values.AgentName,
       "AgentEmail": formRef.current.values.AgentEmail,
-
+      "Location": formRef.current.values.location.value,
       "Agentcontact": formRef.current.values.Agentcontact,
       "AgentType": formRef.current.values.AgentType.value,
-      "group": formRef.current.values.Group.group_name,
+      "queuetype": formRef.current.values.queuetype.value,
+      "group": formRef.current.values.Group.Group_name,
     }
-    const url = 'http://192.168.3.17:4000/admin/agent/addAgent'
+    const url = path4+':4000/admin/agent/addAgent1'
 
     Axios.post(url, { data }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {
@@ -130,29 +108,12 @@ export default function DispositionForm({ ...props }) {
         if (response.data.status === 200) {
           alert("Created Agent Successfully")
           // updateAgentCallStatus(formRef.current.values.Agentcontact)
-          const result = {
-            "agentCallDispositionStatus": "NA",
-            "agentCallType": "Inbound",
-            "agentCallUniqueId": "NA",
-            "agentCallEvent": "NewState",
-            "agentCallStatus": "ringing",
-            "agentID": data.Agentcontact,
-            "agentSipID": data.Agentcontact,
-            "breakStatus": "NA",
-            "newstateinbound": "",
-            "newstateoutbound": "NA",
-            "bridgeUniqueid1": "NA",
-            "bridgeUniqueid2": "NA",
-            "channel": "NA",
-            "contactNumber": data.Agentcontact,
-            "agenttype": data.AgentType
-          }
+          window.location.reload();
 
-          pushAgentCurrentStatusData(result)
           props.TableData()
         }
         else {
-          alert(response.data.message)
+          // alert(response.data.message)
           console.log("formRef.current", formRef.current)
 
         }
@@ -163,12 +124,20 @@ export default function DispositionForm({ ...props }) {
       AgentName: '',
       AgentEmail: '',
       Agentcontact: '',
-      location: '',
+      location: {
+        value: "",
+        label: "",
+        id: ""
+      },
 
       AgentType: {
         value: "",
         label: "",
         id: ""
+      },
+      agentqueue: {
+        value: "",
+        label: ""
       }
     });
 
@@ -196,17 +165,17 @@ export default function DispositionForm({ ...props }) {
   useEffect(() => {
     console.log('formRef', formRef.current.values);
     console.log("initialValue", initialValue)
-    const url = 'http://192.168.3.17:4000/admin/group/getGroup'
+    const url = path4+':4000/admin/group/getGroup'
 
     Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {
-        console.log(response);
+        console.log("getgroup", response);
         if (response.data.status === 200) {
           // roup=response.data.data
           setGroups(response.data.data)
         }
         else {
-          alert(response.data.message)
+          // alert(response.data.message)
 
 
         }
@@ -232,20 +201,27 @@ export default function DispositionForm({ ...props }) {
           .object()
           .required('Please select a Agent Type')
           .typeError('Please select a valid Agent Type'),
-        Group: yup
-          .object()
-          .required('Please select a Group')
-          .typeError('Please select a Group'),
+        // Group: yup
+        //   .object()
+        //   .required('Please select a Group')
+        //   .typeError('Please select a Group'),
         AgentName: yup.string().required('Please Enter Agent Name'),
         AgentEmail: yup.string().required('Please Enter Agent Email'),
         Agentcontact: yup.string().required('Please Enter Agent Contact Number'),
-        location: yup.string().required('Please Enter Location'),
+        location: yup
+          .object()
+          .required('Please select a Agent Type')
+          .typeError('Please select a valid Agent Type'),
+        agentqueue: yup
+          .object()
+          .required('Please select a Agent queue Type')
+          .typeError('Please select a valid Agent queue Type'),
       })}
     >
       {({ setFieldValue }) => (
         <Form>
-          <Grid container spacing={2} direction="column">
-            <Grid item>
+          <Grid container spacing={2} >
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="AgentName"
@@ -257,7 +233,7 @@ export default function DispositionForm({ ...props }) {
 
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="AgentEmail"
@@ -267,7 +243,7 @@ export default function DispositionForm({ ...props }) {
                 label="Agent Email"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="Agentcontact"
@@ -278,7 +254,77 @@ export default function DispositionForm({ ...props }) {
               />
             </Grid>
 
-            {localStorage.getItem('role') === "Admin" ? <Grid item >
+            <Grid item xs={6}>
+              <FormControl
+                variant="outlined"
+                className={classes.fieldContainer}
+              >
+
+
+                <Autocomplete
+                  options={location}
+                  getOptionLabel={option => option.value}
+                  // style={{ width: 400, overflow: "hidden" }}
+                  getOptionSelected={(option, value) =>
+                    value.id === option.id
+                  }
+                  key={autoCompleteKey}
+                  onChange={(event, value) => {
+
+                    setFieldValue('location', value);
+
+                  }}
+                  renderInput={params => (
+                    <Field
+                      component={TextField}
+                      {...params}
+                      label="Select location"
+                      variant="outlined"
+                      name="location"
+                    />
+                  )}
+                  name="location"
+                />
+              </FormControl>
+
+
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl
+                variant="outlined"
+                className={classes.fieldContainer}
+              >
+
+
+                <Autocomplete
+                  options={agentqueue}
+                  getOptionLabel={option => option.value}
+                  // style={{ width: 400, overflow: "hidden" }}
+                  getOptionSelected={(option, value) =>
+                    value.id === option.id
+                  }
+                  key={autoCompleteKey}
+                  onChange={(event, value) => {
+
+                    setFieldValue('queuetype', value);
+
+                  }}
+                  renderInput={params => (
+                    <Field
+                      component={TextField}
+                      {...params}
+                      label="Select Queue Type"
+                      variant="outlined"
+                      name="queuetype"
+                    />
+                  )}
+                  name="queuetype"
+                />
+              </FormControl>
+
+
+            </Grid>
+            {localStorage.getItem('role') === "Admin" ? <Grid item item xs={6}>
               <FormControl
                 variant="outlined"
                 className={classes.fieldContainer}
@@ -287,7 +333,7 @@ export default function DispositionForm({ ...props }) {
 
                 <Autocomplete
                   options={Groups}
-                  getOptionLabel={option => option.group_name}
+                  getOptionLabel={option => option.Group_name}
                   // style={{ width: 400, overflow: "hidden" }}
                   getOptionSelected={(option, value) =>
                     value.id === option.id
@@ -313,7 +359,7 @@ export default function DispositionForm({ ...props }) {
 
             </Grid> : <></>}
 
-            <Grid item >
+            <Grid item xs={6}>
               <FormControl
                 variant="outlined"
                 className={classes.fieldContainer}

@@ -9,7 +9,7 @@ import {
     Typography,
     TextField
 } from '@material-ui/core';
-import { AGENT_SERVICE_URL } from '../../../dashboard-360/utils/endpoints'
+import { Agent_service_url } from '../../../dashboard-360/utils/endpoints'
 import { makeStyles } from '@material-ui/styles';
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
@@ -23,22 +23,14 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
     const classes = useStyles();
     const [Groups, setGroups] = useState([]);
     //   console.log("EditData",props.EditData)
-    // const [formData, setFormData] = useState({
-    //         AgentType: "",
-    //         EmployeeName: "",
-    //         External_num: "",
-    //         Location: "",
-    //         UserID: "",
-    //         UserName: "",
-    //         EmailID:""
-    //     });
+
     const [showModal, setShowModal] = useState(true);
 
     const Data = props.EditData[0]
 
     const [formData, setFormData] = useState(Data);
-    const agentServiceURL = `${AGENT_SERVICE_URL}/`;
-
+    // const agentServiceURL = `${Agent_service_url}/`;
+    const path5 = "http://192.168.3.17"
     const handleChange = (e) => {
         console.log("target", e.target)
         setFormData({
@@ -46,42 +38,9 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
             [e.target.name]: e.target.value
         });
     }
-    function updateAgentCallStatus(contactNumber) {
-        console.log("contactNumber", contactNumber)
-        var axios = require('axios');
 
-        var data = {
-            agentCallDispositionStatus: "NotDisposed",
-            agentCallType: "Inbound",
-            agentCallUniqueId: "1610712538.46886",
-            agentCallEvent: "Bridge",
-            agentCallStatus: "disconnected",
-            agentID: "9998",
-            agentSipID: "9998",
-            contactNumber: contactNumber,
-            breakStatus: "OUT",
-
-        };
-        var config = {
-
-            method: 'post',
-            url: `${AGENT_SERVICE_URL}/crm/currentstatuses`,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
-
-        axios(config)
-            .then(function (response) {
-                console.log("update", JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
     async function pushAgentCurrentStatusData(data) {
-        const url = agentServiceURL + 'crm/currentstatuses';
+        const url = path5+':42004/crm/agentupdate/?userID=' + data._id;
         const result = await fetch(url, { method: 'post', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } });
         console.log("result", result)
         return await result.json();
@@ -89,41 +48,24 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
     const handleSubmit = (e) => {
 
         console.log("formData", formData)
-        const url = 'http://192.168.3.17:4000/admin/agent/updateAgent'
+        const url = path5+':4000/admin/agent/updateAgent1'
 
-        Axios.post(url, { formData }, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
+        Axios.post(url, { formData },)
             .then(function (response) {
                 console.log(response);
                 if (response.data.status === 200) {
                     alert("Updated Agent Successfully")
-                    const result = {
-                        "agentCallDispositionStatus": "NA",
-                        "agentCallType": "Inbound",
-                        "agentCallUniqueId": "NA",
-                        "agentCallEvent": "NewState",
-                        "agentCallStatus": "ringing",
-                        "agentID": formData.Agentcontact,
-                        "agentSipID": formData.Agentcontact,
-                        "breakStatus": "NA",
-                        "newstateinbound": "",
-                        "newstateoutbound": "NA",
-                        "bridgeUniqueid1": "NA",
-                        "bridgeUniqueid2": "NA",
-                        "channel": "NA",
-                        "contactNumber": formData.Agentcontact,
-                        "agenttype": formData.AgentType
-                    }
 
-                    pushAgentCurrentStatusData(result)
+                    pushAgentCurrentStatusData(formData)
                     setShowModal(false)
                     props.TableData()
-                    updateAgentCallStatus(formData.External_num)
+
                 }
             })
 
     }
     useEffect(() => {
-        const url = 'http://192.168.3.17:4000/admin/group/getGroup'
+        const url = path5+':4000/admin/group/getGroup'
 
         Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
             .then(function (response) {
@@ -133,7 +75,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
                     setGroups(response.data.data)
                 }
                 else {
-                    alert(response.data.message)
+                    // alert(response.data.message)
 
 
                 }
@@ -193,30 +135,7 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
                             <br />
                             <br />
 
-                            {localStorage.getItem('role') === "Admin" ? <TextField
-                                fullWidth
-                                label="Select Group"
-                                name="GroupName"
-                                onChange={handleChange}
-                                required
-                                select
-                                SelectProps={{ native: true }}
-                                value={formData.GroupName}
-                                variant="outlined"
-                                InputLabelProps={{ ...InputLabelProps, shrink: true }}
-                                {...props}
-                            >
-                                {Groups.map((option) => (
-                                    <option
-                                        key={option.group_id}
-                                        value={option.group_name}
-                                    >
-                                        {option.group_name}
-                                    </option>
-                                ))}
 
-
-                            </TextField> : <></>}
                             {/* <br/>
                             <br/> */}
                             <TextField
@@ -247,9 +166,36 @@ export default function DistSelect({ InputLabelProps = {}, ...props }) {
 
                             <br />
                             <br />
+
+                            {localStorage.getItem('role') === "Admin" ? <TextField
+                                fullWidth
+                                label="Select Group"
+                                name="GroupName"
+                                onChange={handleChange}
+                                required
+                                select
+                                SelectProps={{ native: true }}
+                                value={formData.GroupName}
+                                variant="outlined"
+                                InputLabelProps={{ ...InputLabelProps, shrink: true }}
+                                {...props}
+                            >
+                                {Groups.map((option) => (
+                                    <option
+                                        key={option.Group_name}
+                                        value={option.Group_name}
+                                    >
+                                        {option.Group_name}
+                                    </option>
+                                ))}
+
+
+                            </TextField> : <></>}
+                            <br />
+                            <br />
                             <TextField
                                 fullWidth
-                                label="Select Agent Type"
+                                label="Select Type"
                                 name="Enabled"
                                 onChange={handleChange}
                                 required

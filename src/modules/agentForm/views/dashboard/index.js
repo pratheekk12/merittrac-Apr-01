@@ -29,6 +29,7 @@ import socketIOClient from 'socket.io-client';
 
 import CreateAgent from './CreateAgentform'
 import AgentTable from './AgentTable'
+import UploadAgent from './UploadAgent'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -97,20 +98,35 @@ const AgentDashboard = () => {
       <div className={classes.root}>
         <Grid container spacing={3}>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} lg={12} sm={4}>
             <div>
 
               <Card>
                 <CardHeader title={'Create Agent'} />
                 <CardContent>
                   <CreateAgent TableData={TableData} />
+                  
                 </CardContent>
               </Card>
 
             </div>
 
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} lg={12} sm={4}>
+            <div>
+
+              <Card>
+                <CardHeader title={'Upload Agent details'} />
+                <CardContent>
+                  <UploadAgent TableData={TableData} />
+                  
+                </CardContent>
+              </Card>
+
+            </div>
+
+          </Grid>
+          <Grid item xs={12} lg={12} sm={8}>
             <div>
               <Card>
                 <CardHeader title={'Agent Details'} />

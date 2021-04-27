@@ -84,7 +84,7 @@ const AgentDashboard = () => {
         <div className={classes.root}>
       <Grid container spacing={3}>
     
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} lg={12}  sm={4}>
         <div>
        
          <Card>
@@ -97,7 +97,7 @@ const AgentDashboard = () => {
                </div>
         
         </Grid>
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} lg={12} sm={8}>
         <div>
         <Card>
                   <CardHeader title={'Group Admin Details'} />

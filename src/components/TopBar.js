@@ -413,7 +413,7 @@ const TopBar = ({
           />
         </div> */}
         <Box flexGrow={1} />
-        <IconButton color="inherit" onClick={() => history.push('/dash360')}>
+        {localStorage.getItem("role") === "Agent"  ? <IconButton color="inherit" onClick={() => history.push('/dash360')}>
           <Badge
             badgeContent={notifications.length}
             color="primary"
@@ -421,7 +421,7 @@ const TopBar = ({
           >
             <Button variant="contained" color="secondary" > Fetch Info </Button>
           </Badge>
-        </IconButton>
+        </IconButton>: <></>}
 
 
         <Hidden mdDown>
@@ -430,12 +430,16 @@ const TopBar = ({
               Agent {localStorage.getItem('Agenttype') + ' ' + localStorage.getItem('AgentSIPID')}
             </Link>
           </Typography> : <></>}
-          {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "Group admin" ? <Typography className={classes.title} variant="h5" noWrap>
+          {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "Group Admin" ?  <Typography className={classes.title} variant="h5" noWrap>  <Link to="" className="color-white">
+          {localStorage.getItem("Username")}
+            </Link>
+            </Typography>: <></>}
+          {/* {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "Group Admin" ? <Typography className={classes.title} variant="h5" noWrap>
             <Link to="/telephony/dashboard" className="color-white">
               Telephony
             </Link>
-          </Typography> : <></>}
-          {localStorage.getItem("role") === "Admin" || localStorage.getItem("role") === "Group admin" ? <Typography className={classes.title} variant="h5" noWrap>
+          </Typography> : <></>} */}
+          {localStorage.getItem("role") === "Admin" ? <Typography className={classes.title} variant="h5" noWrap>
             <Link to="/agent/dashboard" className="color-white">
               Agents
             </Link>

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import {
   UPDATE_CALL_STATUS,
   UPDATE_CURRENT_STATUS,
-  AGENT_SERVICE_URL
+  Agent_service_url
 } from 'src/modules/dashboard-360/utils/endpoints';
 import {
   Button,
@@ -17,10 +17,10 @@ import {
 } from '@material-ui/core';
 import * as yup from 'yup';
 import Axios from 'axios';
-// import config from '../../../ticketing/views/config.json';g
+
 import { Autocomplete } from '@material-ui/lab';
 import { set } from 'lodash';
-// import { AlternateEmailTwoTone } from '@material-ui/icons';
+
 const useStyle = makeStyles(() => ({
   fieldContainer: {
     width: '100%'
@@ -28,34 +28,20 @@ const useStyle = makeStyles(() => ({
 }));
 export default function DispositionForm(props) {
   const config = "http://192.168.3.45:8083/"
+  const path = "http://192.168.3.17"
   const [initialValue, setInitialValue] = useState({
 
     GroupAdminName: '',
     GroupAdminEmail: '',
     groupcontact: '',
 
-    Group: {
-      value: "",
-      label: ""
-    }
+    Group: ''
   });
   const [Groups, setGroups] = useState([]);
   const classes = useStyle();
   const formRef = useRef({});
-  const agentServiceURL = `${AGENT_SERVICE_URL}/`;
+  // const agentServiceURL = `${Agent_service_url}/`;
 
-  // const Groups = [
-  //   {
-  //     id: '1', value: 'Grassroots DD',
-  //   },
-  //   {
-  //     id: '2', value: 'Grassroots OMR',
-  //   },
-  //   {
-  //     id: '3', value: 'Grassroots Site1',
-  //   },
-
-  // ]
 
 
   function updateAgentCallStatus(contactNumber) {
@@ -77,7 +63,7 @@ export default function DispositionForm(props) {
     var config = {
 
       method: 'post',
-      url: 'https://localhost:42004/crm/currentstatuses',
+      url: path+':42004/crm/currentstatuses',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -104,17 +90,19 @@ export default function DispositionForm(props) {
       "groupslabel": formRef.current.values.Group,
     }
 
-    const url = 'http://192.168.3.17:4000/admin/groupdadmin/add'
+    const url = path+':4000/admin/group/addGroup'
     console.log("data", data)
-    Axios.post(url, data)
+    Axios.post(url, {data}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
+    // Axios.post(url, data)
       .then(function (response) {
         console.log(response);
         if (response.data.status === 200) {
           alert("Created Successfully")
+          window.location.reload();
           // updateAgentCallStatus(formRef.current.values.Agentcontact)
         }
         else {
-          alert(response.data.message)
+          // alert(response.data.message)
           console.log("formRef.current", formRef.current)
 
         }
@@ -136,10 +124,7 @@ export default function DispositionForm(props) {
     formRef.current.values.GroupAdminEmail = ""
     formRef.current.values.groupcontact = ""
 
-    formRef.current.values.Group = {
-      value: "",
-      label: ""
-    }
+    formRef.current.values.Group = ""
     console.log("initialValue", initialValue)
 
     e.preventDefault()
@@ -153,7 +138,7 @@ export default function DispositionForm(props) {
   useEffect(() => {
     console.log('formRef', formRef.current.values);
     console.log("initialValue", initialValue)
-    const url = 'http://192.168.3.17:4000/admin/group/getGroup'
+    const url = path+':4000/admin/group/getGroup'
 
     Axios.post(url, {}, { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } })
       .then(function (response) {
@@ -163,7 +148,7 @@ export default function DispositionForm(props) {
           setGroups(response.data.data)
         }
         else {
-          alert(response.data.message)
+          // alert(response.data.message)
 
 
         }
@@ -186,10 +171,8 @@ export default function DispositionForm(props) {
       innerRef={formRef}
       validationSchema={yup.object({
 
-        Group: yup
-          .object()
-          .required('Please select a Group')
-          .typeError('Please select a Group'),
+       
+        Group: yup.string().required('Please Enter Group Name'),
         GroupAdminName: yup.string().required('Please Enter Group Admin Name'),
         GroupAdminEmail: yup.string().required('Please Enter Group Admin Email'),
         groupcontact: yup.string().required('Please Enter  Group Admin Contact Number'),
@@ -198,42 +181,20 @@ export default function DispositionForm(props) {
     >
       {({ setFieldValue }) => (
         <Form>
-          <Grid container spacing={2} direction="column">
-            <Grid item >
-              <FormControl
-                variant="outlined"
+          <Grid container spacing={2} >
+            <Grid item xs={6} >
+               <Field
                 className={classes.fieldContainer}
-              >
+                name="Group"
+                component={TextField}
+                variant="outlined"
+                multiline
+                // value="AgentName"
+                label="Group Name"
 
-
-                <Autocomplete
-                  options={Groups}
-                  getOptionLabel={option => option.group_name}
-                  // style={{ width: 400, overflow: "hidden" }}
-                  getOptionSelected={(option, value) =>
-                    value.id === option.id
-                  }
-                  key={autoCompleteKey}
-                  onChange={(event, value) => {
-
-                    setFieldValue('Group', value);
-
-                  }}
-                  renderInput={params => (
-                    <Field
-                      component={TextField}
-                      {...params}
-                      label="Select Groups"
-                      variant="outlined"
-                      name="Group"
-                    />
-                  )}
-                  name="Group"
-                />
-              </FormControl>
-
+              />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="GroupAdminName"
@@ -245,7 +206,7 @@ export default function DispositionForm(props) {
 
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="GroupAdminEmail"
@@ -255,7 +216,7 @@ export default function DispositionForm(props) {
                 label="Group Admin Email"
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <Field
                 className={classes.fieldContainer}
                 name="groupcontact"
